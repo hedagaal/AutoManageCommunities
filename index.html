@@ -1,0 +1,1755 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}</style></head><body>
+<title>Oasis Residencial Cholul — Modo Transición</title>
+<style>
+  :root{
+    --bg:#EFF2EE; --surface:#FFFFFF; --surface-2:#E3E9E0; --border:#B9C3B4;
+    --ink:#10140F; --ink-muted:#3F4A3F; --accent:#164A41; --accent-strong:#0B2B26;
+    --accent-soft:#CCE2DA; --success:#195E3F; --success-soft:#C7E8D7;
+    --warning:#6B4A0D; --warning-soft:#EEDCAE; --critical:#8A2C26; --critical-soft:#F0C9C4;
+    --on-accent:#FFFFFF; --brand-panel-bg:#0B2B26; --brand-panel-ink:#F2F7F5; --brand-panel-ink-muted:#BFD8D1;
+    --shadow: 0 1px 2px rgba(16,20,15,.08), 0 6px 20px -8px rgba(16,20,15,.18);
+    --radius: 10px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#0F1412; --surface:#1A231F; --surface-2:#243029; --border:#44584D;
+      --ink:#F4F8F4; --ink-muted:#BFCEC4; --accent:#7CDFCE; --accent-strong:#A8F0E2;
+      --accent-soft:#213D37; --success:#8DE6B4; --success-soft:#1D3C2A;
+      --warning:#F2C96E; --warning-soft:#3F3014; --critical:#F2A79D; --critical-soft:#40221F;
+      --on-accent:#07211C;
+      --shadow: 0 1px 2px rgba(0,0,0,.5), 0 10px 28px -10px rgba(0,0,0,.7);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0F1412; --surface:#1A231F; --surface-2:#243029; --border:#44584D;
+    --ink:#F4F8F4; --ink-muted:#BFCEC4; --accent:#7CDFCE; --accent-strong:#A8F0E2;
+    --accent-soft:#213D37; --success:#8DE6B4; --success-soft:#1D3C2A;
+    --warning:#F2C96E; --warning-soft:#3F3014; --critical:#F2A79D; --critical-soft:#40221F;
+    --on-accent:#07211C;
+    --shadow: 0 1px 2px rgba(0,0,0,.5), 0 10px 28px -10px rgba(0,0,0,.7);
+  }
+  :root[data-theme="light"]{
+    --bg:#EFF2EE; --surface:#FFFFFF; --surface-2:#E3E9E0; --border:#B9C3B4;
+    --ink:#10140F; --ink-muted:#3F4A3F; --accent:#164A41; --accent-strong:#0B2B26;
+    --accent-soft:#CCE2DA; --success:#195E3F; --success-soft:#C7E8D7;
+    --warning:#6B4A0D; --warning-soft:#EEDCAE; --critical:#8A2C26; --critical-soft:#F0C9C4;
+    --on-accent:#FFFFFF;
+    --shadow: 0 1px 2px rgba(16,20,15,.08), 0 6px 20px -8px rgba(16,20,15,.18);
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family: -apple-system, "Segoe UI", system-ui, Helvetica, Arial, sans-serif;
+    font-size:14.5px; line-height:1.5;
+  }
+  h1,h2,h3,.display{ font-family: Georgia, "Iowan Old Style", "Noto Serif", serif; text-wrap: balance; letter-spacing: .1px; }
+  .mono, .amount, td.num, th.num{ font-family: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", monospace; font-variant-numeric: tabular-nums; }
+  a{color:var(--accent);}
+  button{font-family:inherit;}
+
+  .app{ display:grid; grid-template-columns: 250px 1fr; min-height:100vh; }
+
+  .side{ background:var(--surface); border-right:1px solid var(--border); padding:20px 14px; display:flex; flex-direction:column; gap:16px; overflow-y:auto; }
+  .brand{ display:flex; align-items:center; gap:10px; padding:4px 6px 10px; border-bottom:1px solid var(--border); }
+  .brand .seal{ width:30px; height:30px; flex:none; }
+  .brand .name{ font-family: Georgia, "Iowan Old Style", serif; font-size:14.5px; line-height:1.25; }
+  .brand .name small{ display:block; font-family:-apple-system,system-ui,sans-serif; font-size:10.5px; color:var(--ink-muted); letter-spacing:.3px; text-transform:uppercase; margin-top:1px; }
+
+  .viewtoggle{ display:flex; border:1px solid var(--border); border-radius:9px; overflow:hidden; background:var(--surface-2); }
+  .viewtoggle button{ flex:1; border:none; background:transparent; padding:8px 6px; font-size:12.3px; font-weight:700; color:var(--ink-muted); cursor:pointer; }
+  .viewtoggle button.active{ background:var(--accent); color:var(--on-accent); }
+
+  .mode-banner{ background:var(--warning-soft); border:1px solid color-mix(in srgb, var(--warning) 45%, transparent); color:var(--warning); border-radius:var(--radius); padding:10px 12px; font-size:12.1px; }
+  .mode-banner strong{ display:block; color:var(--ink); font-size:12.6px; margin-bottom:2px; }
+
+  nav{ display:flex; flex-direction:column; gap:2px; }
+  .navgroup-label{ font-size:10.3px; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-muted); margin:10px 6px 2px; }
+  .navitem{ display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:8px; color:var(--ink-muted); cursor:pointer; border-left:2px solid transparent; font-size:13px; }
+  .navitem:hover{ background:var(--surface-2); color:var(--ink); }
+  .navitem.active{ background:var(--accent-soft); color:var(--accent-strong); border-left-color:var(--accent); font-weight:600; }
+  .navitem .dot{ width:6px; height:6px; border-radius:50%; background:var(--ink-muted); flex:none; }
+  .navitem.active .dot{ background:var(--accent); }
+  .navitem.comite-only{ display:none; }
+  body[data-view="comite"] .navitem.comite-only{ display:flex; }
+  .comite-block{ display:none; }
+  body[data-view="comite"] .comite-block{ display:block; }
+
+  main{ padding:26px 34px 110px; max-width:1180px; }
+  .screen{ display:none; }
+  .screen.active{ display:block; }
+
+  .pagehead{ display:flex; justify-content:space-between; align-items:flex-start; gap:20px; margin-bottom:18px; flex-wrap:wrap;}
+  .pagehead h1{ font-size:23px; margin:0 0 4px; }
+  .pagehead .sub{ color:var(--ink-muted); font-size:13px; max-width:62ch; }
+  .eyebrow{ font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--accent); font-weight:600; margin-bottom:6px; }
+
+  .grid{ display:grid; gap:16px; }
+  .grid.cols-3{ grid-template-columns: repeat(3,1fr); }
+  .grid.cols-2{ grid-template-columns: repeat(2,1fr); }
+  @media (max-width: 880px){ .grid.cols-3, .grid.cols-2{ grid-template-columns:1fr; } }
+
+  .card{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:16px 18px; box-shadow:var(--shadow); }
+  .card h3{ font-size:14px; margin:0 0 10px; }
+  .stat-label{ font-size:11.5px; color:var(--ink-muted); text-transform:uppercase; letter-spacing:.05em; }
+  .stat-value{ font-size:26px; margin-top:4px; }
+  .stat-value.mono{ font-size:24px; }
+  .stat-foot{ font-size:12px; color:var(--ink-muted); margin-top:6px; }
+
+  .pill{ display:inline-flex; align-items:center; gap:5px; font-size:11.5px; font-weight:600; padding:3px 9px; border-radius:100px; white-space:nowrap; }
+  .pill::before{ content:""; width:6px; height:6px; border-radius:50%; background:currentColor; }
+  .pill.success{ background:var(--success-soft); color:var(--success); }
+  .pill.warning{ background:var(--warning-soft); color:var(--warning); }
+  .pill.critical{ background:var(--critical-soft); color:var(--critical); }
+  .pill.neutral{ background:var(--surface-2); color:var(--ink-muted); }
+
+  table{ width:100%; border-collapse:collapse; font-size:13.1px; }
+  thead th{ text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-muted); padding:8px 10px; border-bottom:1px solid var(--border); font-weight:600; }
+  th.num, td.num{ text-align:right; }
+  tbody td{ padding:10px 10px; border-bottom:1px solid var(--border); vertical-align:middle; }
+  tbody tr:last-child td{ border-bottom:none; }
+  tbody tr:hover{ background:var(--surface-2); }
+  .tablewrap{ overflow-x:auto; }
+
+  .btn{ display:inline-flex; align-items:center; gap:7px; border:1px solid var(--border); background:var(--surface); color:var(--ink); padding:9px 14px; border-radius:8px; font-size:13px; font-weight:600; cursor:pointer; }
+  .btn.primary{ background:var(--accent); border-color:var(--accent); color:var(--on-accent); font-weight:700; }
+  .btn.ghost{ background:transparent; }
+  .btn:hover{ filter:brightness(0.97); }
+  .btn.small{ padding:6px 10px; font-size:12px; }
+  .btn[disabled]{ opacity:.45; cursor:not-allowed; }
+
+  .field{ margin-bottom:14px; }
+  .field label{ display:block; font-size:12.3px; font-weight:600; margin-bottom:5px; }
+  .field .hint{ font-size:11.6px; color:var(--ink-muted); margin-top:4px; }
+  select, input[type=text], input[type=number], input[type=date], input[type=time], input[type=file], input[type=url], textarea{
+    width:100%; padding:9px 11px; border-radius:8px; border:1px solid var(--border); background:var(--surface); color:var(--ink); font-size:13.3px; font-family:inherit;
+  }
+  textarea{ resize:vertical; min-height:70px; }
+  .segmented{ display:flex; border:1px solid var(--border); border-radius:8px; overflow:hidden; }
+  .segmented .opt{ flex:1; text-align:center; padding:9px 8px; font-size:12.8px; cursor:pointer; color:var(--ink-muted); border-right:1px solid var(--border); }
+  .segmented .opt:last-child{ border-right:none; }
+  .segmented .opt.selected{ background:var(--accent-soft); color:var(--accent-strong); font-weight:600; }
+
+  .divider{ height:1px; background:var(--border); margin:18px 0; }
+  .stamp{ display:inline-flex; align-items:center; gap:6px; font-size:11px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; padding:5px 10px; border:1.5px solid var(--warning); color:var(--warning); border-radius:6px; transform:rotate(-2deg); }
+
+  .voterow{ display:flex; align-items:center; justify-content:space-between; padding:10px 0; border-bottom:1px solid var(--border); }
+  .voterow:last-child{ border-bottom:none; }
+  .member{ display:flex; align-items:center; gap:10px; }
+  .avatar{ width:30px; height:30px; border-radius:50%; background:var(--surface-2); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:var(--ink-muted); flex:none; }
+
+  .timeline{ position:relative; padding-left:20px; }
+  .timeline::before{ content:""; position:absolute; left:4px; top:4px; bottom:4px; width:1.5px; background:var(--border); }
+  .tl-item{ position:relative; padding-bottom:18px; }
+  .tl-item:last-child{ padding-bottom:0; }
+  .tl-item::before{ content:""; position:absolute; left:-20px; top:3px; width:9px; height:9px; border-radius:50%; background:var(--accent); border:2px solid var(--surface); }
+  .tl-date{ font-size:11px; color:var(--ink-muted); }
+  .tl-title{ font-size:13.3px; font-weight:600; margin:1px 0 2px; }
+  .tl-desc{ font-size:12.5px; color:var(--ink-muted); }
+
+  .notif{ display:flex; gap:12px; padding:13px 0; border-bottom:1px solid var(--border); }
+  .notif:last-child{ border-bottom:none; }
+  .notif .chip-ch{ font-size:10px; text-transform:uppercase; letter-spacing:.04em; padding:2px 7px; border-radius:5px; font-weight:700; flex:none; height:fit-content; }
+  .ch-whatsapp{ background:var(--success-soft); color:var(--success); }
+  .ch-email{ background:var(--accent-soft); color:var(--accent-strong); }
+  .ch-portal{ background:var(--surface-2); color:var(--ink-muted); }
+  .notif .ntitle{ font-size:13.2px; font-weight:600; }
+  .notif .ndesc{ font-size:12.4px; color:var(--ink-muted); margin-top:2px; }
+  .notif .ntime{ font-size:11px; color:var(--ink-muted); margin-left:auto; flex:none; white-space:nowrap; }
+
+  .auth-wrap{ display:grid; grid-template-columns: 1fr 1fr; min-height:100vh; }
+  .auth-side{ background:var(--brand-panel-bg); color:var(--brand-panel-ink); padding:48px; display:flex; flex-direction:column; justify-content:space-between; }
+  .auth-side .seal{ width:46px; height:46px; }
+  .auth-side h2{ font-size:26px; margin:20px 0 10px; color:var(--brand-panel-ink); }
+  .auth-side p{ color:var(--brand-panel-ink-muted); font-size:13.5px; max-width:36ch; }
+  .auth-form{ display:flex; align-items:center; justify-content:center; padding:40px; }
+  .auth-card{ width:100%; max-width:360px; }
+  .auth-card h1{ font-size:21px; margin:0 0 6px; }
+  .auth-card .sub{ color:var(--ink-muted); font-size:13px; margin-bottom:22px; }
+
+  /* ---- Seleccionar iniciativas (Iniciativas vecinales) ---- */
+  .progress-track{ height:7px; border-radius:100px; background:var(--surface-2); overflow:hidden; }
+  .progress-fill{ height:100%; background:var(--accent); border-radius:100px; }
+  .progress-fill.full{ background:var(--success); }
+
+  .init-card{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); margin-bottom:12px; box-shadow:var(--shadow); overflow:hidden; }
+  .init-head{ display:flex; align-items:center; gap:18px; padding:15px 18px; cursor:pointer; }
+  .init-head:hover{ background:var(--surface-2); }
+  .init-main{ flex:1; min-width:0; }
+  .init-name{ font-weight:700; font-size:14.5px; }
+  .init-tags{ display:flex; gap:6px; margin-top:6px; }
+  .tag{ font-size:10.6px; text-transform:uppercase; letter-spacing:.04em; font-weight:700; padding:2px 7px; border-radius:5px; background:var(--accent-soft); color:var(--accent-strong); }
+  .init-progress{ width:230px; flex:none; }
+  .init-progress .nums{ display:flex; justify-content:space-between; font-size:11.6px; color:var(--ink-muted); margin-top:5px; }
+  .init-progress .nums .falta{ color:var(--warning); font-weight:700; }
+  .chev{ flex:none; font-size:13px; color:var(--ink-muted); transition:transform .15s; }
+  .init-card.open .chev{ transform:rotate(180deg); }
+  .selected-badge{ font-size:11px; font-weight:700; color:var(--success); background:var(--success-soft); padding:3px 8px; border-radius:100px; flex:none; display:none; }
+  .init-card.has-selection .selected-badge{ display:inline-flex; }
+
+  .init-body{ display:none; border-top:1px solid var(--border); padding:16px 18px 18px; background:var(--bg); }
+  .init-card.open .init-body{ display:block; }
+
+  .type-block{ margin-bottom:16px; }
+  .type-block:last-child{ margin-bottom:0; }
+  .type-block h4{ font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-muted); margin:0 0 8px; }
+
+  .lineitem{ display:flex; align-items:center; gap:14px; padding:10px 0; border-bottom:1px solid var(--border); }
+  .lineitem:last-child{ border-bottom:none; }
+  .li-main{ flex:1; min-width:0; }
+  .li-name{ font-size:13.3px; font-weight:600; }
+  .li-meta{ font-size:11.8px; color:var(--ink-muted); margin-top:2px; }
+  .li-spec{ margin-top:7px; max-width:260px; }
+  .li-spec select{ font-size:12.3px; padding:6px 8px; }
+  .li-value{ font-size:12.6px; color:var(--ink-muted); width:118px; flex:none; text-align:right; }
+  .stepper{ display:flex; align-items:center; gap:8px; flex:none; }
+  .stepper button{ width:26px; height:26px; border-radius:6px; border:1px solid var(--border); background:var(--surface); font-size:14px; cursor:pointer; line-height:1; }
+  .stepper button:hover{ background:var(--surface-2); }
+  .stepper .qty{ width:20px; text-align:center; font-weight:700; }
+  .money-add{ display:flex; gap:8px; align-items:center; flex:none; }
+  .money-add input{ width:120px; }
+  .pending-note{ font-size:12.2px; color:var(--ink-muted); background:var(--surface-2); border-radius:8px; padding:9px 11px; }
+
+  .summary-bar{ position:fixed; left:250px; right:0; bottom:0; background:var(--surface); border-top:1px solid var(--border); box-shadow:0 -6px 20px -10px rgba(0,0,0,.2); padding:14px 34px; display:flex; align-items:center; justify-content:space-between; gap:20px; z-index:20; }
+  .summary-left{ display:flex; align-items:center; gap:16px; }
+  .summary-left .amt{ font-size:21px; }
+  .summary-left .sl-label{ font-size:11.5px; color:var(--ink-muted); text-transform:uppercase; letter-spacing:.05em; }
+  .summary-progress{ width:220px; }
+
+  .drawer-overlay{ position:fixed; inset:0; background:rgba(10,14,13,.4); opacity:0; pointer-events:none; transition:opacity .18s; z-index:30; }
+  .drawer-overlay.show{ opacity:1; pointer-events:auto; }
+  .drawer{ position:fixed; top:0; right:0; bottom:0; width:380px; max-width:92vw; background:var(--surface); border-left:1px solid var(--border); transform:translateX(100%); transition:transform .2s ease; z-index:31; display:flex; flex-direction:column; }
+  .drawer.show{ transform:translateX(0); }
+  .drawer-head{ display:flex; align-items:center; justify-content:space-between; padding:18px 20px; border-bottom:1px solid var(--border); }
+  .drawer-head h3{ margin:0; font-size:16px; }
+  .drawer-head button{ border:none; background:none; font-size:16px; cursor:pointer; color:var(--ink-muted); }
+  .drawer-body{ flex:1; overflow-y:auto; padding:14px 20px; }
+  .drawer-group{ margin-bottom:16px; }
+  .drawer-group-title{ font-size:11.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-muted); margin-bottom:6px; }
+  .drawer-line{ display:flex; justify-content:space-between; gap:10px; font-size:13px; padding:6px 0; }
+  .drawer-line .dl-name{ color:var(--ink); }
+  .drawer-line .dl-amt{ font-weight:700; }
+  .drawer-foot{ border-top:1px solid var(--border); padding:16px 20px; display:flex; flex-direction:column; gap:10px; }
+  .drawer-total{ display:flex; justify-content:space-between; font-size:16px; font-weight:700; }
+  .empty-cart{ color:var(--ink-muted); font-size:13px; padding:20px 0; text-align:center; }
+
+  /* ---- Tabs ---- */
+  .tabs{ display:flex; gap:4px; border-bottom:1px solid var(--border); margin-bottom:18px; }
+  .tab-btn{ padding:9px 14px; font-size:13px; font-weight:600; color:var(--ink-muted); background:none; border:none; cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-1px; }
+  .tab-btn:hover{ color:var(--ink); }
+  .tab-btn.active{ color:var(--accent-strong); border-bottom-color:var(--accent); }
+  .tabpane{ display:none; }
+  .tabpane.active{ display:block; }
+
+  /* ---- Mis iniciativas ---- */
+  .ini-exec-card{ margin-bottom:14px; }
+  .ini-exec-head{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom:10px; }
+  .ini-exec-head h3{ margin:0; }
+  .action-row{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+  .declare-form{ display:none; }
+  .declare-form.show{ display:block; }
+  .contact-row{ display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--border); font-size:13px; }
+  .contact-row:last-child{ border-bottom:none; }
+
+  /* ---- Calendario de juntas ---- */
+  .cal-grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:8px; }
+  .cal-dow{ font-size:11px; text-transform:uppercase; color:var(--ink-muted); text-align:center; font-weight:700; letter-spacing:.04em; }
+  .cal-cell{ min-height:84px; border:1px solid var(--border); border-radius:8px; padding:6px; background:var(--surface); }
+  .cal-cell.muted{ background:var(--surface-2); opacity:.55; }
+  .cal-daynum{ font-size:11.5px; color:var(--ink-muted); font-family: ui-monospace, monospace; }
+  .meeting-chip{ margin-top:5px; background:var(--accent-soft); color:var(--accent-strong); border-radius:6px; padding:4px 6px; font-size:10.8px; font-weight:600; line-height:1.3; cursor:pointer; }
+  .meeting-chip .mc-time{ font-weight:700; }
+  .meeting-chip.comite{ background:var(--warning-soft); color:var(--warning); }
+
+  /* ---- Jurídico / IA ---- */
+  .legal-card{ margin-bottom:12px; }
+  .legal-card h4{ margin:0 0 4px; font-size:14px; }
+  .legal-meta{ font-size:11.6px; color:var(--ink-muted); margin-bottom:6px; }
+  .chat-box{ display:flex; flex-direction:column; gap:10px; max-height:320px; overflow-y:auto; padding-right:4px; }
+  .chat-msg{ max-width:85%; padding:9px 12px; border-radius:10px; font-size:12.8px; line-height:1.45; }
+  .chat-msg.user{ align-self:flex-end; background:var(--accent); color:var(--on-accent); }
+  .chat-msg.ai{ align-self:flex-start; background:var(--surface-2); color:var(--ink); }
+  .chat-input-row{ display:flex; gap:8px; margin-top:12px; }
+  .chat-input-row input{ flex:1; }
+
+  /* ---- Boletines ---- */
+  .news-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  @media (max-width:880px){ .news-grid{ grid-template-columns:1fr; } }
+  .news-card{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:16px; box-shadow:var(--shadow); cursor:pointer; display:flex; flex-direction:column; gap:8px; }
+  .news-card:hover{ border-color:var(--accent); }
+  .news-issue{ font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--accent); font-weight:700; }
+  .news-title{ font-family:Georgia,"Iowan Old Style",serif; font-size:16.5px; line-height:1.3; }
+  .news-excerpt{ font-size:12.3px; color:var(--ink-muted); flex:1; }
+  .news-date{ font-size:11px; color:var(--ink-muted); font-family:ui-monospace,monospace; }
+  .news-loading{ text-align:center; color:var(--ink-muted); font-size:12.5px; padding:20px 0; }
+  .reading-view{ display:none; }
+  .reading-view.show{ display:block; }
+  .reading-view .back{ margin-bottom:16px; }
+  .reading-view article{ max-width:68ch; }
+  .reading-view h1{ font-size:26px; margin-bottom:6px; }
+  .reading-view .meta{ color:var(--ink-muted); font-size:12.5px; margin-bottom:20px; }
+  .reading-view p{ margin:0 0 14px; }
+
+  /* ---- Asistente "Finalizar ejecución" ---- */
+  .modal-overlay{ position:fixed; inset:0; background:rgba(8,12,10,.5); display:none; align-items:center; justify-content:center; z-index:60; padding:20px; }
+  .modal-overlay.show{ display:flex; }
+  .modal{ background:var(--surface); border-radius:var(--radius); width:460px; max-width:100%; max-height:88vh; overflow-y:auto; box-shadow:var(--shadow); }
+  .modal-head{ padding:16px 20px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; gap:10px; }
+  .modal-head h3{ margin:0; font-size:15.5px; }
+  .modal-head button{ border:none; background:none; font-size:16px; cursor:pointer; color:var(--ink-muted); flex:none; }
+  .modal-body{ padding:18px 20px; }
+  .modal-foot{ padding:14px 20px; border-top:1px solid var(--border); display:flex; justify-content:space-between; gap:10px; }
+  .wizard-steps{ display:flex; gap:6px; margin-bottom:18px; }
+  .wizard-steps .ws-dot{ flex:1; height:4px; border-radius:100px; background:var(--surface-2); }
+  .wizard-steps .ws-dot.done{ background:var(--accent); }
+  .wizard-pane{ display:none; }
+  .wizard-pane.active{ display:block; }
+
+  /* ---- Responsive / móvil ---- */
+  .mobile-topbar{ display:none; }
+  .side-overlay{ display:none; }
+  @media (max-width:880px){
+    .mobile-topbar{
+      display:flex; align-items:center; gap:12px; justify-content:space-between;
+      position:sticky; top:0; background:var(--surface); border-bottom:1px solid var(--border);
+      padding:12px 16px; z-index:25;
+    }
+    .mobile-topbar .hbtn{ width:36px; height:36px; border-radius:8px; border:1px solid var(--border); background:var(--surface); font-size:16px; cursor:pointer; flex:none; }
+    .mobile-topbar .name{ font-family:Georgia,"Iowan Old Style",serif; font-size:14px; }
+    .app{ grid-template-columns: 1fr; }
+    .side{ position:fixed; top:0; left:0; bottom:0; width:270px; transform:translateX(-100%); transition:transform .2s ease; z-index:50; }
+    body.sidebar-open .side{ transform:translateX(0); }
+    .side-overlay{ display:block; position:fixed; inset:0; background:rgba(8,12,10,.45); opacity:0; pointer-events:none; transition:opacity .18s; z-index:45; }
+    body.sidebar-open .side-overlay{ opacity:1; pointer-events:auto; }
+    main{ padding:16px 16px 28px; }
+    #screen-vecinales.active{ padding-bottom:190px; }
+    .pagehead{ flex-direction:column; }
+    .pagehead h1{ font-size:20px; }
+    .init-head{ flex-wrap:wrap; row-gap:10px; }
+    .init-progress{ width:100%; order:3; }
+    .summary-bar{ left:0; flex-direction:column; align-items:stretch; gap:10px; padding:12px 16px 16px; }
+    .summary-left{ flex-direction:column; align-items:stretch; gap:8px; }
+    .summary-progress{ width:100%; }
+    #openDrawerBtn{ justify-content:center; }
+    .drawer{ width:100%; }
+    .lineitem{ flex-wrap:wrap; row-gap:8px; }
+    .li-value{ width:auto; text-align:left; }
+    .auth-wrap{ grid-template-columns:1fr; }
+    .auth-side{ padding:28px; }
+
+    /* Tablas -> tarjetas apiladas, sin scroll horizontal */
+    .tablewrap{ overflow-x:visible; }
+    table{ width:100%; }
+    table, tbody, tr, td{ display:block; width:100%; }
+    thead{ display:none; }
+    tbody tr{
+      border:1px solid var(--border); border-radius:8px; padding:4px 12px;
+      margin-bottom:10px; background:var(--surface);
+    }
+    tbody tr:hover{ background:var(--surface); }
+    tbody td{
+      display:flex; justify-content:space-between; align-items:center; gap:12px;
+      padding:8px 0; border-bottom:1px solid var(--border); text-align:right;
+    }
+    tbody td:last-child{ border-bottom:none; }
+    tbody td::before{
+      content: attr(data-th);
+      font-size:10.8px; text-transform:uppercase; letter-spacing:.05em;
+      color:var(--ink-muted); font-weight:700; text-align:left; flex:none; margin-right:10px;
+    }
+    tbody td:first-child{
+      display:block; text-align:left; font-weight:700; font-size:13.5px;
+      padding:10px 0 9px; border-bottom:1px solid var(--border);
+    }
+    tbody td:first-child::before{ content:none; }
+    .ai-panel{ right:0; bottom:0; left:0; top:0; width:100%; height:100%; max-width:100%; max-height:100%; border-radius:0; }
+    .ai-fab{ right:16px; bottom:16px; }
+  }
+
+  /* ---- Asistente de IA flotante ---- */
+  .ai-fab{
+    position:fixed; right:26px; bottom:26px; width:56px; height:56px; border-radius:50%;
+    background:var(--accent); border:none; display:flex; align-items:center; justify-content:center;
+    box-shadow:var(--shadow); cursor:pointer; z-index:55;
+  }
+  .ai-fab svg{ width:26px; height:26px; }
+  .ai-panel{
+    position:fixed; right:26px; bottom:94px; width:360px; max-width:92vw; height:500px; max-height:72vh;
+    background:var(--surface); border:1px solid var(--border); border-radius:14px; box-shadow:var(--shadow);
+    display:none; flex-direction:column; overflow:hidden; z-index:56;
+  }
+  .ai-panel.show{ display:flex; }
+  .ai-panel-head{ display:flex; align-items:center; gap:10px; padding:14px 16px; border-bottom:1px solid var(--border); background:var(--accent-soft); flex:none; }
+  .ai-mark{ width:30px; height:30px; border-radius:50%; background:var(--accent); display:flex; align-items:center; justify-content:center; flex:none; }
+  .ai-mark svg{ width:15px; height:15px; }
+  .ai-title{ flex:1; min-width:0; }
+  .ai-title b{ display:block; font-size:13.3px; color:var(--accent-strong); }
+  .ai-title span{ font-size:11px; color:var(--ink-muted); }
+  .ai-panel-head button{ border:none; background:none; font-size:17px; cursor:pointer; color:var(--ink-muted); flex:none; }
+  .ai-panel-body{ flex:1; overflow-y:auto; padding:14px 16px; display:flex; flex-direction:column; gap:10px; }
+  .ai-quick{ display:flex; flex-wrap:wrap; gap:6px; padding:0 16px 12px; flex:none; }
+  .ai-quick button{ border:1px solid var(--border); background:var(--surface); border-radius:100px; padding:6px 11px; font-size:11.3px; cursor:pointer; color:var(--accent-strong); font-family:inherit; }
+  .ai-quick button:hover{ background:var(--surface-2); }
+  .ai-panel-foot{ display:flex; gap:8px; padding:12px 16px; border-top:1px solid var(--border); flex:none; }
+  .ai-panel-foot input{ flex:1; }
+
+  /* ---- Recorrido guiado ---- */
+  .tour-ring{
+    position:fixed; border:3px solid var(--accent); border-radius:10px;
+    box-shadow:0 0 0 4000px rgba(8,12,10,.5); pointer-events:none; z-index:58;
+    transition:left .25s ease, top .25s ease, width .25s ease, height .25s ease; display:none;
+  }
+  .tour-tip{
+    position:fixed; background:var(--surface); border-radius:10px; box-shadow:var(--shadow);
+    padding:14px 16px; width:270px; z-index:59; display:none;
+  }
+  .tour-tip .tt-step{ font-size:10.3px; text-transform:uppercase; letter-spacing:.06em; color:var(--accent); font-weight:700; margin-bottom:6px; }
+  .tour-tip p{ font-size:12.8px; margin:0 0 12px; color:var(--ink); line-height:1.4; }
+  .tour-tip .tt-actions{ display:flex; justify-content:space-between; gap:8px; align-items:center; }
+  .tour-tip .tt-skip{ border:none; background:none; color:var(--ink-muted); font-size:11.5px; cursor:pointer; text-decoration:underline; }
+</style>
+
+<div class="app" id="app">
+  <div class="mobile-topbar">
+    <button class="hbtn" onclick="toggleSidebar()" aria-label="Abrir menú">☰</button>
+    <span class="name">Oasis Residencial Cholul</span>
+    <span style="width:36px;"></span>
+  </div>
+  <div class="side-overlay" onclick="toggleSidebar()"></div>
+  <aside class="side">
+    <div class="brand">
+      <svg class="seal" viewBox="0 0 48 48" aria-hidden="true">
+        <circle cx="24" cy="24" r="21" fill="none" stroke="var(--accent)" stroke-width="2"/>
+        <circle cx="24" cy="24" r="15" fill="none" stroke="var(--accent)" stroke-width="1.2" stroke-dasharray="2 3"/>
+        <path d="M24 13 L30 24 L24 35 L18 24 Z" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.2"/>
+      </svg>
+      <div class="name">Oasis Residencial Cholul<small>Gestión condominal</small></div>
+    </div>
+
+    <div class="viewtoggle" id="viewToggle">
+      <button class="active" data-view="condomino">Vista Condómino</button>
+      <button data-view="comite">Vista Comité</button>
+    </div>
+
+    <div class="mode-banner">
+      <strong>Modo Transición activo</strong>
+      Desde el 03 oct 2026 · a la espera de registros de la administración saliente
+    </div>
+
+    <nav>
+      <div class="navgroup-label">Tu cuenta</div>
+      <div class="navitem active" data-target="dashboard"><span class="dot"></span>Mi cuenta</div>
+      <div class="navitem" data-target="vecinales"><span class="dot"></span>Iniciativas vecinales</div>
+      <div class="navitem" data-target="misiniciativas"><span class="dot"></span>Mis iniciativas</div>
+      <div class="navitem" data-target="misaportaciones"><span class="dot"></span>Mis aportaciones</div>
+      <div class="navitem" data-target="reportes"><span class="dot"></span>Reportes</div>
+      <div class="navitem" data-target="misjuntas"><span class="dot"></span>Mis juntas</div>
+      <div class="navitem" data-target="juridico"><span class="dot"></span>Análisis jurídico</div>
+      <div class="navitem" data-target="boletines"><span class="dot"></span>Boletines</div>
+      <div class="navitem" data-target="notificaciones"><span class="dot"></span>Notificaciones</div>
+      <div class="navitem" data-target="acceso"><span class="dot"></span>Acceso / Invitación</div>
+
+      <div class="navgroup-label">Comité de Vigilancia</div>
+      <div class="navitem comite-only" data-target="modo"><span class="dot"></span>Modo Transición</div>
+      <div class="navitem comite-only" data-target="conciliacion"><span class="dot"></span>Conciliación de deuda</div>
+    </nav>
+  </aside>
+
+  <main>
+
+    <!-- DASHBOARD -->
+    <section class="screen active" id="screen-dashboard">
+      <div class="pagehead">
+        <div>
+          <div class="eyebrow">Mi cuenta · Casa 14 · Oasis Residencial Cholul</div>
+          <h1>Hola, Marcela</h1>
+          <div class="sub">El condominio opera en Modo Transición: tu estatus de cuenta aún no se conoce con certeza mientras se reciben los registros de la administración anterior.</div>
+        </div>
+        <span class="pill warning">Modo Transición</span>
+      </div>
+
+      <div class="card comite-block" style="margin-bottom:16px;">
+        <div class="ini-exec-head">
+          <h3 style="margin:0;">Panel del comité</h3>
+          <button class="btn small primary" onclick="openSpecialInit()">+ Crear iniciativa especial</button>
+        </div>
+        <div class="stat-foot" style="margin-top:0; margin-bottom:10px;">Iniciativas vecinales pendientes de aprobar</div>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th>Iniciativa</th><th>Declarada por</th><th class="num">Presupuesto</th><th>Acción</th></tr></thead>
+            <tbody>
+              <tr><td>Reparación de bomba de agua</td><td>Marcela R. — Casa 14</td><td class="num mono">$4,500</td><td><button class="btn small primary">Aprobar</button> <button class="btn small">Rechazar</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="grid cols-3">
+        <div class="card">
+          <div class="stat-label">Crédito acumulado</div>
+          <div class="stat-value mono">$1,850</div>
+          <div class="stat-foot">De aportaciones hechas dentro del sistema durante la transición</div>
+        </div>
+        <div class="card">
+          <div class="stat-label">Pendiente de validación</div>
+          <div class="stat-value mono" style="color:var(--warning)">$3,200</div>
+          <div class="stat-foot">Comprobantes de la administración saliente · no genera mora mientras se concilia</div>
+        </div>
+        <div class="card">
+          <div class="stat-label">Deuda histórica registrada</div>
+          <div class="stat-value mono">$0</div>
+          <div class="stat-foot">Se registrará cuando lleguen los números de la administración saliente</div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="card" style="display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap;">
+        <div>
+          <h3 style="margin-bottom:4px;">¿Ya le pagaste a la administración saliente?</h3>
+          <div class="stat-foot" style="margin-top:0;">Declara ese pago para que quede registrado como pendiente de validación y no te genere mora mientras se concilia.</div>
+        </div>
+        <button class="btn primary" onclick="goScreen('registrarpasada')">Registrar aportación a la administración pasada</button>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="card">
+        <h3>Mis aportaciones recientes</h3>
+        <div class="tablewrap">
+        <table>
+          <thead><tr><th>Fecha</th><th>Iniciativa</th><th>Tipo</th><th class="num">Monto</th><th>Evidencia</th><th>Estatus</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">22 oct 2026</td><td>Pago de vigilancia</td><td>Transferencia</td><td class="num mono">$1,200</td><td>Comprobante de transferencia</td><td><span class="pill success">Acreditado</span></td></tr>
+            <tr><td class="mono">18 oct 2026</td><td>Pago de luz de pozo</td><td>Recibo admin. saliente</td><td class="num mono">$3,200</td><td>Recibo folio AS-0441</td><td><span class="pill warning">Pendiente</span></td></tr>
+            <tr><td class="mono">05 oct 2026</td><td>Mantenimiento de piscina</td><td>Especie</td><td class="num mono">$850</td><td>Bote de cloro 20kg (1)</td><td><span class="pill success">Acreditado</span></td></tr>
+            <tr><td class="mono">01 oct 2026</td><td>Pago de jardinería</td><td>Trabajo</td><td class="num mono">$750</td><td>Recolección de hojas (15 bloques)</td><td><span class="pill critical">Rechazado</span></td></tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- REGISTRAR APORTACION PASADA -->
+    <section class="screen" id="screen-registrarpasada">
+      <div class="pagehead">
+        <div>
+          <div class="eyebrow">Mi cuenta · Modo Transición</div>
+          <h1>Registrar aportación a la administración pasada</h1>
+          <div class="sub">Este pago no genera crédito automático: queda pendiente de validación hasta que la administración saliente entregue sus registros. Mientras tanto, evita que se te genere mora sobre este monto.</div>
+        </div>
+      </div>
+      <div class="grid cols-2">
+        <div class="card">
+          <div class="field"><label>Fecha en que hiciste el pago</label><input type="date" value="2026-08-14"/></div>
+          <div class="field"><label>Concepto</label><select><option>Cuota general</option><option>Mantenimiento de piscina</option><option>Pago de vigilancia</option><option>Pago de jardinería</option><option>Otro</option></select></div>
+          <div class="field"><label>Monto pagado</label><input type="number" placeholder="$"/></div>
+          <div class="field"><label>Folio del recibo</label><input type="text" placeholder="Ej. AS-0441"/></div>
+          <div class="field"><label>Subir recibo (foto o PDF)</label><input type="file"/></div>
+          <button class="btn primary" onclick="goScreen('dashboard')">Enviar para validación</button>
+        </div>
+        <div class="card">
+          <h3>Tus pagos declarados</h3>
+          <div class="tablewrap">
+          <table>
+            <thead><tr><th>Fecha</th><th>Concepto</th><th class="num">Monto</th><th>Folio</th><th>Estatus</th></tr></thead>
+            <tbody>
+              <tr><td class="mono">18 oct 2026</td><td>Cuota general</td><td class="num mono">$3,200</td><td class="mono">AS-0441</td><td><span class="pill warning">Pendiente</span></td></tr>
+              <tr><td class="mono">02 ago 2026</td><td>Mantenimiento de piscina</td><td class="num mono">$600</td><td class="mono">AS-0298</td><td><span class="pill warning">Pendiente</span></td></tr>
+            </tbody>
+          </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INICIATIVAS VECINALES -->
+    <section class="screen" id="screen-vecinales">
+      <div class="pagehead">
+        <div>
+          <div class="eyebrow">Modo Transición · Elegir destino de tu aportación</div>
+          <h1>Iniciativas vecinales</h1>
+          <div class="sub">En Modo Transición puedes elegir a qué iniciativas destinas tu aportación, incluso en dinero. Abre cada iniciativa para ver qué se pide, qué se ha cubierto y qué falta.</div>
+        </div>
+      </div>
+
+      <div id="initiativesList">
+
+        <!-- Luz de pozo -->
+        <div class="init-card" data-init="luz" data-meta="8000" data-cubierto="6100">
+          <div class="init-head" onclick="toggleCard(this)">
+            <div class="init-main">
+              <div class="init-name">Pago de luz de pozo</div>
+              <div class="init-tags"><span class="tag">Dinero</span></div>
+            </div>
+            <span class="selected-badge">Seleccionado</span>
+            <div class="init-progress">
+              <div class="progress-track"><div class="progress-fill" style="width:76%"></div></div>
+              <div class="nums"><span class="mono">$6,100 de $8,000</span><span class="falta mono">falta $1,900</span></div>
+            </div>
+            <span class="chev">▾</span>
+          </div>
+          <div class="init-body">
+            <div class="type-block">
+              <h4>Dinero</h4>
+              <div class="lineitem">
+                <div class="li-main"><div class="li-name">Aportación monetaria</div><div class="li-meta">Transferencia o efectivo · falta $1,900 para completar el mes</div></div>
+                <div class="money-add"><input type="number" placeholder="$" class="money-input" data-init="luz" data-label="Aportación monetaria — Luz de pozo" max="1900"/><button class="btn small" onclick="addMoney(this)">Agregar</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Vigilancia -->
+        <div class="init-card" data-init="vigilancia" data-meta="42000" data-cubierto="31500">
+          <div class="init-head" onclick="toggleCard(this)">
+            <div class="init-main">
+              <div class="init-name">Pago de vigilancia</div>
+              <div class="init-tags"><span class="tag">Dinero</span></div>
+            </div>
+            <span class="selected-badge">Seleccionado</span>
+            <div class="init-progress">
+              <div class="progress-track"><div class="progress-fill" style="width:75%"></div></div>
+              <div class="nums"><span class="mono">$31,500 de $42,000</span><span class="falta mono">falta $10,500</span></div>
+            </div>
+            <span class="chev">▾</span>
+          </div>
+          <div class="init-body">
+            <div class="type-block">
+              <h4>Dinero</h4>
+              <div class="lineitem">
+                <div class="li-main"><div class="li-name">Aportación monetaria</div><div class="li-meta">Transferencia o efectivo · falta $10,500</div></div>
+                <div class="money-add"><input type="number" placeholder="$" class="money-input" data-init="vigilancia" data-label="Aportación monetaria — Vigilancia" max="10500"/><button class="btn small" onclick="addMoney(this)">Agregar</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Piscina -->
+        <div class="init-card" data-init="piscina" data-meta="15000" data-cubierto="9200">
+          <div class="init-head" onclick="toggleCard(this)">
+            <div class="init-main">
+              <div class="init-name">Mantenimiento de piscina</div>
+              <div class="init-tags"><span class="tag">Dinero</span><span class="tag">Trabajo</span><span class="tag">Especie</span></div>
+            </div>
+            <span class="selected-badge">Seleccionado</span>
+            <div class="init-progress">
+              <div class="progress-track"><div class="progress-fill" style="width:61%"></div></div>
+              <div class="nums"><span class="mono">$9,200 de $15,000</span><span class="falta mono">falta $5,800</span></div>
+            </div>
+            <span class="chev">▾</span>
+          </div>
+          <div class="init-body">
+            <div class="type-block">
+              <h4>Especie</h4>
+              <div class="lineitem">
+                <div class="li-main">
+                  <div class="li-name">Bote de cloro granulado 20 kg</div>
+                  <div class="li-meta">Requeridos 2 · cubiertos 0 · puedes aportar 1 o 2</div>
+                </div>
+                <div class="li-value mono">$850 c/u</div>
+                <div class="stepper" data-unit-value="850" data-max="2" data-label="Bote de cloro granulado 20kg" data-init="piscina" data-unidad="bote(s)">
+                  <button onclick="stepDown(this)">−</button><span class="qty">0</span><button onclick="stepUp(this)">+</button>
+                </div>
+              </div>
+              <div class="lineitem">
+                <div class="li-main">
+                  <div class="li-name">Tabletas de cloro</div>
+                  <div class="li-meta">Requeridos 10 kg · cubiertos 3 kg · faltan 7 kg</div>
+                  <div class="li-spec"><select class="spec-select"><option>Tricloro en pastillas</option><option>Dicloro granulado</option><option>Hipoclorito de calcio</option></select></div>
+                </div>
+                <div class="li-value mono">$120 / kg</div>
+                <div class="stepper" data-unit-value="120" data-max="7" data-label="Tabletas de cloro" data-init="piscina" data-unidad="kg" data-has-spec="true">
+                  <button onclick="stepDown(this)">−</button><span class="qty">0</span><button onclick="stepUp(this)">+</button>
+                </div>
+              </div>
+            </div>
+            <div class="type-block">
+              <h4>Trabajo</h4>
+              <div class="pending-note">[Pendiente de definir: el comité aún no ha publicado tareas de trabajo físico específicas para esta iniciativa]</div>
+            </div>
+            <div class="type-block">
+              <h4>Dinero</h4>
+              <div class="lineitem">
+                <div class="li-main"><div class="li-name">Aportación monetaria</div><div class="li-meta">Transferencia o efectivo</div></div>
+                <div class="money-add"><input type="number" placeholder="$" class="money-input" data-init="piscina" data-label="Aportación monetaria — Piscina" max="5800"/><button class="btn small" onclick="addMoney(this)">Agregar</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Basura -->
+        <div class="init-card" data-init="basura" data-meta="9500" data-cubierto="9500">
+          <div class="init-head" onclick="toggleCard(this)">
+            <div class="init-main">
+              <div class="init-name">Recolección de basura</div>
+              <div class="init-tags"><span class="tag">Dinero</span></div>
+            </div>
+            <span class="selected-badge">Seleccionado</span>
+            <div class="init-progress">
+              <div class="progress-track"><div class="progress-fill full" style="width:100%"></div></div>
+              <div class="nums"><span class="mono">$9,500 de $9,500</span><span class="pill success" style="padding:2px 7px;">Cubierta</span></div>
+            </div>
+            <span class="chev">▾</span>
+          </div>
+          <div class="init-body">
+            <div class="type-block">
+              <h4>Dinero</h4>
+              <div class="lineitem">
+                <div class="li-main"><div class="li-name">Aportación monetaria voluntaria</div><div class="li-meta">Esta iniciativa ya está cubierta este mes; cualquier aporte extra se registra como crédito</div></div>
+                <div class="money-add"><input type="number" placeholder="$" class="money-input" data-init="basura" data-label="Aportación voluntaria — Basura"/><button class="btn small" onclick="addMoney(this)">Agregar</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Jardineria -->
+        <div class="init-card" data-init="jardineria" data-meta="6000" data-cubierto="2300">
+          <div class="init-head" onclick="toggleCard(this)">
+            <div class="init-main">
+              <div class="init-name">Pago de jardinería</div>
+              <div class="init-tags"><span class="tag">Dinero</span><span class="tag">Trabajo</span><span class="tag">Especie</span></div>
+            </div>
+            <span class="selected-badge">Seleccionado</span>
+            <div class="init-progress">
+              <div class="progress-track"><div class="progress-fill" style="width:38%"></div></div>
+              <div class="nums"><span class="mono">$2,300 de $6,000</span><span class="falta mono">falta $3,700</span></div>
+            </div>
+            <span class="chev">▾</span>
+          </div>
+          <div class="init-body">
+            <div class="type-block">
+              <h4>Trabajo</h4>
+              <div class="lineitem">
+                <div class="li-main"><div class="li-name">Recolección de hojas</div><div class="li-meta">Bloques de 30 minutos · requeridos 40 · cubiertos 15 · faltan 25</div></div>
+                <div class="li-value mono">$50 / bloque</div>
+                <div class="stepper" data-unit-value="50" data-max="25" data-label="Recolección de hojas (30 min)" data-init="jardineria" data-unidad="bloque(s) de 30 min">
+                  <button onclick="stepDown(this)">−</button><span class="qty">0</span><button onclick="stepUp(this)">+</button>
+                </div>
+              </div>
+            </div>
+            <div class="type-block">
+              <h4>Especie</h4>
+              <div class="lineitem">
+                <div class="li-main"><div class="li-name">Tijeras de jardinero</div><div class="li-meta">Requeridas 3 · cubiertas 1 · faltan 2</div></div>
+                <div class="li-value mono">$300 c/u</div>
+                <div class="stepper" data-unit-value="300" data-max="2" data-label="Tijeras de jardinero" data-init="jardineria" data-unidad="unidad(es)">
+                  <button onclick="stepDown(this)">−</button><span class="qty">0</span><button onclick="stepUp(this)">+</button>
+                </div>
+              </div>
+            </div>
+            <div class="type-block">
+              <h4>Dinero</h4>
+              <div class="lineitem">
+                <div class="li-main"><div class="li-name">Aportación monetaria</div><div class="li-meta">Transferencia o efectivo · cubre lo que no se aporte en trabajo o especie</div></div>
+                <div class="money-add"><input type="number" placeholder="$" class="money-input" data-init="jardineria" data-label="Aportación monetaria — Jardinería" max="3700"/><button class="btn small" onclick="addMoney(this)">Agregar</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- MIS INICIATIVAS -->
+    <section class="screen" id="screen-misiniciativas">
+      <div class="pagehead">
+        <div>
+          <div class="eyebrow">Ejecutor · Oasis Residencial Cholul</div>
+          <h1>Mis iniciativas</h1>
+          <div class="sub">En Modo Transición, cualquier condómino puede declarar una iniciativa; quien la declara queda como su ejecutor y, al mismo tiempo, como su tesorero.</div>
+        </div>
+        <button class="btn primary" onclick="toggleDeclareForm()">+ Declarar nueva iniciativa</button>
+      </div>
+
+      <div class="card declare-form" id="declareForm">
+        <h3>Declarar iniciativa (Modo Transición)</h3>
+        <div class="grid cols-2">
+          <div>
+            <div class="field"><label>Nombre de la iniciativa</label><input type="text" placeholder="Ej. Reparación de bomba de agua"/></div>
+            <div class="field"><label>Propósito</label><textarea placeholder="Describe para qué es esta iniciativa"></textarea></div>
+            <div class="field"><label>Presupuesto estimado</label><input type="number" placeholder="$"/></div>
+          </div>
+          <div>
+            <div class="field"><label>Insumos requeridos</label><textarea placeholder="Ej. Sello mecánico ×1, tubería PVC 3 m"></textarea></div>
+            <div class="field"><label>Plan de trabajo (fechas límite)</label><textarea placeholder="Ej. Diagnóstico 27 oct · Reparación 29 oct · Entrega 30 oct"></textarea></div>
+            <div class="field"><label>Trabajo físico requerido (si aplica)</label><input type="text" placeholder="Ej. Instalación, 2 horas"/></div>
+          </div>
+        </div>
+        <button class="btn primary" onclick="submitDeclare()">Enviar para aprobación del comité</button>
+      </div>
+
+      <div class="card ini-exec-card">
+        <div class="ini-exec-head">
+          <div><h3>Mantenimiento de piscina</h3><div class="stat-foot" style="margin-top:0;">Soy ejecutor y tesorero (Modo Transición)</div></div>
+          <span class="pill success">Aprobada</span>
+        </div>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th>Cuenta</th><th>Tipo</th><th class="num">Saldo</th></tr></thead>
+            <tbody><tr><td>Cuenta personal — BBVA ****4471</td><td><span class="pill warning">Personal (transición)</span></td><td class="num mono">$3,750</td></tr></tbody>
+          </table>
+        </div>
+        <div class="divider"></div>
+        <h3 style="font-size:13px;">Insumos (especie) recibidos directamente</h3>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th>Insumo recibido</th><th>De</th><th>Fecha</th><th>Acción</th></tr></thead>
+            <tbody>
+              <tr><td>Bote de cloro granulado 20kg ×1</td><td>Luis F. — Casa 09</td><td class="mono">20 oct</td><td><button class="btn small">Generar recibo de liberación</button></td></tr>
+              <tr><td>Tabletas de cloro 3kg</td><td>Ana G. — Casa 31</td><td class="mono">19 oct</td><td><button class="btn small">Generar recibo de liberación</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="divider"></div>
+        <h3 style="font-size:13px;">Pagos en efectivo y transferencia por validar</h3>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th>Condómino</th><th>Tipo</th><th class="num">Monto</th><th>Evidencia</th><th>Acción</th></tr></thead>
+            <tbody>
+              <tr><td>J. Pérez — Casa 22</td><td>Transferencia</td><td class="num mono">$600</td><td><button class="btn small">Ver comprobante</button></td><td><button class="btn small primary">Generar recibo de liberación</button></td></tr>
+              <tr><td>Marcela R. — Casa 14</td><td>Efectivo</td><td class="num mono">$850</td><td><span class="pill neutral">Entregado en sitio</span></td><td><button class="btn small primary">Generar recibo de liberación</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="divider"></div>
+        <h3 style="font-size:13px;">Contactos de todos los que aportaron</h3>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th>Condómino</th><th>Tipo de aportación</th><th>Estatus</th><th>Teléfono</th><th>Acción</th></tr></thead>
+            <tbody>
+              <tr><td>Luis F. — Casa 09</td><td>Especie (bote de cloro)</td><td><span class="pill success">Acreditado</span></td><td class="mono">55-1234-5678</td><td><button class="btn small ghost">Contactar</button></td></tr>
+              <tr><td>Ana G. — Casa 31</td><td>Especie (tabletas de cloro)</td><td><span class="pill success">Acreditado</span></td><td class="mono">55-9876-5432</td><td><button class="btn small ghost">Contactar</button></td></tr>
+              <tr><td>J. Pérez — Casa 22</td><td>Dinero (transferencia)</td><td><span class="pill warning">Por validar</span></td><td class="mono">55-4455-6677</td><td><button class="btn small">Contactar</button></td></tr>
+              <tr><td>R. Casas — Casa 05</td><td>Dinero</td><td><span class="pill critical">Pendiente</span></td><td class="mono">55-2200-9911</td><td><button class="btn small primary">Contactar</button></td></tr>
+              <tr><td>QuimPool SA (proveedor)</td><td>Especie</td><td><span class="pill neutral">Contacto de referencia</span></td><td class="mono">999-222-1111</td><td><button class="btn small ghost">Contactar</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="hint" style="margin-bottom:8px;">"Solicitar disposición de fondos" no aplica en Modo Transición: como ejecutor, ya tienes control directo de los fondos de tu iniciativa.</div>
+        <div class="action-row">
+          <button class="btn small primary" onclick="openFinalize()">Finalizar ejecución</button>
+          <button class="btn small ghost">+ Agregar contacto</button>
+        </div>
+      </div>
+
+      <div class="card ini-exec-card">
+        <div class="ini-exec-head">
+          <div><h3>Reparación de bomba de agua</h3><div class="stat-foot" style="margin-top:0;">Declarada el 24 oct 2026 · Soy ejecutor y tesorero</div></div>
+          <span class="pill warning">Pendiente de aprobación del comité</span>
+        </div>
+        <div class="grid cols-2">
+          <div>
+            <div class="stat-foot" style="margin-top:0;"><strong>Propósito:</strong> La bomba del pozo presenta fugas y requiere reparación antes de que falle por completo.</div>
+            <div class="stat-foot"><strong>Presupuesto:</strong> $4,500</div>
+          </div>
+          <div>
+            <div class="stat-foot" style="margin-top:0;"><strong>Insumos:</strong> Sello mecánico ×1</div>
+            <div class="stat-foot"><strong>Plan de trabajo:</strong> Diagnóstico 27 oct · Reparación 29 oct · Entrega 30 oct</div>
+            <div class="stat-foot"><strong>Trabajo físico:</strong> Instalación, 2 horas</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MIS APORTACIONES -->
+    <section class="screen" id="screen-misaportaciones">
+      <div class="pagehead">
+        <div>
+          <div class="eyebrow">Mi cuenta · Oasis Residencial Cholul</div>
+          <h1>Mis aportaciones</h1>
+          <div class="sub">A dónde va cada aportación, su evidencia y su estatus.</div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <h3>Dinero y especie</h3>
+        <div class="tablewrap">
+        <table>
+          <thead><tr><th>Fecha</th><th>Iniciativa</th><th>Tipo</th><th class="num">Monto/Valor</th><th>Destino</th><th>Evidencia</th><th>Estatus</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">22 oct</td><td>Pago de vigilancia</td><td>Transferencia</td><td class="num mono">$1,200</td><td>CLABE 012 180 0012345678 01</td><td><button class="btn small">Ver</button></td><td><span class="pill success">Acreditado</span></td></tr>
+            <tr><td class="mono">20 oct</td><td>Mantenimiento de piscina</td><td>Especie</td><td class="num mono">$850</td><td>Entregar a ejecutor Marcela R. (en sitio)</td><td><button class="btn small">Ver</button></td><td><span class="pill success">Acreditado</span></td></tr>
+            <tr><td class="mono">18 oct</td><td>Pago de luz de pozo</td><td>Recibo admin. saliente</td><td class="num mono">$3,200</td><td>N/A — pago previo</td><td><button class="btn small">Ver</button></td><td><span class="pill warning">Pendiente</span></td></tr>
+            <tr><td class="mono">12 oct</td><td>Pago de jardinería</td><td>Efectivo</td><td class="num mono">$500</td><td>Entregar a ejecutor J. Pérez</td><td><button class="btn small ghost">Subir evidencia</button></td><td><span class="pill critical">Rechazado</span></td></tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Trabajo físico</h3>
+        <div class="tablewrap">
+        <table>
+          <thead><tr><th>Tarea comprometida</th><th class="num">Valor convertido</th><th>Fecha de ejecución</th><th>Evidencia</th><th>Estatus</th></tr></thead>
+          <tbody>
+            <tr><td>Recolección de hojas — 15 bloques de 30 min</td><td class="num mono">$750</td><td class="mono">01 oct 2026</td><td><button class="btn small ghost">Subir evidencia</button></td><td><span class="pill critical">Demorado</span></td></tr>
+            <tr><td>Bote de cloro — entrega acordada</td><td class="num mono">$850</td><td class="mono">20 oct 2026</td><td><button class="btn small">Ver</button></td><td><span class="pill success">Acreditado</span></td></tr>
+            <tr><td>Instalación de sello mecánico — 2 h</td><td class="num mono">$300</td><td class="mono">29 oct 2026</td><td><button class="btn small ghost">Subir evidencia</button></td><td><span class="pill neutral">En espera</span></td></tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- REPORTES -->
+    <section class="screen" id="screen-reportes">
+      <div class="pagehead">
+        <div>
+          <div class="eyebrow">Transparencia · Oasis Residencial Cholul</div>
+          <h1>Reportes</h1>
+          <div class="sub">Información no personal de la gestión, visible para todos los condóminos.</div>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <button class="tab-btn active" onclick="showTab(this,'tab-condominal')">Reporte condominal</button>
+        <button class="tab-btn" onclick="showTab(this,'tab-porcasa')">Aportaciones por casa</button>
+        <button class="tab-btn" onclick="showTab(this,'tab-gastos')">Gastos mensuales</button>
+      </div>
+
+      <div class="tabpane active" id="tab-condominal">
+        <div class="card">
+          <div class="tablewrap">
+          <table>
+            <thead><tr><th>Iniciativa</th><th>Estatus</th><th class="num">Meta</th><th class="num">Fondeado</th><th>Evidencia</th><th>Fondeo / quién aportó</th></tr></thead>
+            <tbody>
+              <tr><td>Pago de luz de pozo</td><td><span class="pill warning">Necesita fondos</span></td><td class="num mono">$8,000</td><td class="num mono">$6,100</td><td><span class="pill neutral">N/A</span></td><td><button class="btn small" onclick="alert('Marcela R. — $1,200 · Luis F. — $1,200 · Ana G. — $1,200 · 22 aportaciones más')">Ver aportantes</button></td></tr>
+              <tr><td>Pago de vigilancia</td><td><span class="pill warning">Necesita fondos</span></td><td class="num mono">$42,000</td><td class="num mono">$31,500</td><td><span class="pill neutral">N/A</span></td><td><button class="btn small" onclick="alert('28 condóminos aportantes este mes')">Ver aportantes</button></td></tr>
+              <tr><td>Mantenimiento de piscina</td><td><span class="pill success">En ejecución</span></td><td class="num mono">$15,000</td><td class="num mono">$9,200</td><td><button class="btn small">Ver evidencia</button></td><td><button class="btn small" onclick="alert('Luis F. — bote de cloro ($850) · Ana G. — tabletas ($360) · 6 aportaciones de dinero más')">Ver aportantes</button></td></tr>
+              <tr><td>Recolección de basura</td><td><span class="pill success">Completada</span></td><td class="num mono">$9,500</td><td class="num mono">$9,500</td><td><button class="btn small">Ver evidencia</button></td><td><button class="btn small" onclick="alert('32 condóminos aportantes este mes')">Ver aportantes</button></td></tr>
+              <tr><td>Pago de jardinería</td><td><span class="pill warning">Necesita fondos</span></td><td class="num mono">$6,000</td><td class="num mono">$2,300</td><td><span class="pill neutral">N/A</span></td><td><button class="btn small" onclick="alert('Marcela R. — 15 bloques de hojas · 1 tijera de jardinero')">Ver aportantes</button></td></tr>
+              <tr><td>Reparación de bomba de agua</td><td><span class="pill neutral">Pendiente de aprobación</span></td><td class="num mono">$4,500</td><td class="num mono">$0</td><td><span class="pill neutral">N/A</span></td><td><span class="pill neutral">Sin fondeo aún</span></td></tr>
+              <tr><td>Reparación de malla perimetral</td><td><span class="pill critical">Cancelada</span></td><td class="num mono">$2,800</td><td class="num mono">$600</td><td><span class="pill neutral">N/A</span></td><td><button class="btn small" onclick="alert('Cancelada por el comité: no se encontró ejecutor en el plazo definido.')">Ver motivo</button></td></tr>
+            </tbody>
+          </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="tabpane" id="tab-porcasa">
+        <div class="card">
+          <div class="tablewrap">
+          <table>
+            <thead><tr><th>Casa</th><th>Condómino</th><th class="num">Deuda</th><th class="num">Aportaciones (histórico)</th><th class="num">Créditos</th></tr></thead>
+            <tbody>
+              <tr><td class="mono">Casa 14</td><td>Marcela R.</td><td class="num mono">$0</td><td class="num mono">$12,400</td><td class="num mono">$1,850</td></tr>
+              <tr><td class="mono">Casa 09</td><td>Luis F.</td><td class="num mono" style="color:var(--critical)">$6,250</td><td class="num mono">$8,900</td><td class="num mono">$950</td></tr>
+              <tr><td class="mono">Casa 31</td><td>Ana G.</td><td class="num mono">$0</td><td class="num mono">$10,100</td><td class="num mono">$2,100</td></tr>
+              <tr><td class="mono">Casa 22</td><td>J. Pérez</td><td class="num mono">$1,200</td><td class="num mono">$7,300</td><td class="num mono">$0</td></tr>
+            </tbody>
+          </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="tabpane" id="tab-gastos">
+        <div class="card">
+          <h3>Octubre 2026</h3>
+          <div class="tablewrap">
+          <table>
+            <thead><tr><th>Iniciativa</th><th class="num">Gasto del mes</th><th>Estatus de la iniciativa</th></tr></thead>
+            <tbody>
+              <tr><td>Pago de vigilancia</td><td class="num mono">$31,500</td><td><span class="pill warning">Necesita fondos</span></td></tr>
+              <tr><td>Recolección de basura</td><td class="num mono">$9,500</td><td><span class="pill success">Completada</span></td></tr>
+              <tr><td>Pago de luz de pozo</td><td class="num mono">$6,100</td><td><span class="pill warning">Necesita fondos</span></td></tr>
+              <tr><td>Mantenimiento de piscina</td><td class="num mono">$9,200</td><td><span class="pill success">En ejecución</span></td></tr>
+              <tr><td>Pago de jardinería</td><td class="num mono">$2,300</td><td><span class="pill warning">Necesita fondos</span></td></tr>
+            </tbody>
+          </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MIS JUNTAS -->
+    <section class="screen" id="screen-misjuntas">
+      <div class="pagehead">
+        <div>
+          <div class="eyebrow">Oasis Residencial Cholul</div>
+          <h1>Mis juntas</h1>
+          <div class="sub">Cualquier vecino puede convocar una junta; el comité también convoca las suyas.</div>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <button class="tab-btn active" onclick="showTab(this,'tab-calendario')">Calendario de juntas</button>
+        <button class="tab-btn" onclick="showTab(this,'tab-crear')">Crear junta</button>
+        <button class="tab-btn" onclick="showTab(this,'tab-pasadas')">Mis juntas (pasadas)</button>
+      </div>
+
+      <div class="tabpane active" id="tab-calendario">
+        <div class="card">
+          <h3>Noviembre 2026</h3>
+          <div class="cal-grid">
+            <div class="cal-dow">Dom</div><div class="cal-dow">Lun</div><div class="cal-dow">Mar</div><div class="cal-dow">Mié</div><div class="cal-dow">Jue</div><div class="cal-dow">Vie</div><div class="cal-dow">Sáb</div>
+            <div class="cal-cell muted"></div><div class="cal-cell muted"></div>
+            <div class="cal-cell"><div class="cal-daynum">01</div></div>
+            <div class="cal-cell"><div class="cal-daynum">02</div></div>
+            <div class="cal-cell"><div class="cal-daynum">03</div></div>
+            <div class="cal-cell"><div class="cal-daynum">04</div><div class="meeting-chip comite" onclick="alert('Junta: Presupuesto 2027\n19:00 h · Zoom: meet.oasis.mx/presupuesto2027')"><span class="mc-time">19:00</span> Presupuesto 2027 (Zoom)</div></div>
+            <div class="cal-cell"><div class="cal-daynum">05</div></div>
+            <div class="cal-cell"><div class="cal-daynum">06</div></div>
+            <div class="cal-cell"><div class="cal-daynum">07</div></div>
+            <div class="cal-cell"><div class="cal-daynum">08</div></div>
+            <div class="cal-cell"><div class="cal-daynum">09</div></div>
+            <div class="cal-cell"><div class="cal-daynum">10</div></div>
+            <div class="cal-cell"><div class="cal-daynum">11</div><div class="meeting-chip" onclick="alert('Junta: Ruido de obra en Casa 22\n18:30 h · Caseta de vigilancia')"><span class="mc-time">18:30</span> Ruido de obra (presencial)</div></div>
+            <div class="cal-cell"><div class="cal-daynum">12</div></div>
+            <div class="cal-cell"><div class="cal-daynum">13</div></div>
+            <div class="cal-cell"><div class="cal-daynum">14</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tabpane" id="tab-crear">
+        <div class="card" style="max-width:520px;">
+          <div class="field"><label>Nombre de la junta</label><input type="text" placeholder="Ej. Seguimiento de obras de piscina"/></div>
+          <div class="grid cols-2">
+            <div class="field"><label>Fecha</label><input type="date"/></div>
+            <div class="field"><label>Hora</label><input type="time"/></div>
+          </div>
+          <div class="field"><label>Link de Zoom o Google Meet (opcional)</label><input type="url" placeholder="https://meet.oasis.mx/..."/></div>
+          <div class="field"><label>Ubicación física (opcional)</label><input type="text" placeholder="Ej. Caseta de vigilancia"/></div>
+          <div class="hint" style="margin-bottom:14px;">Puedes dejar solo una opción o ambas.</div>
+          <button class="btn primary">Crear y notificar a vecinos</button>
+        </div>
+      </div>
+
+      <div class="tabpane" id="tab-pasadas">
+        <div class="card">
+          <div class="tablewrap">
+          <table>
+            <thead><tr><th>Junta</th><th>Fecha</th><th>Convocó</th><th>Minuta</th></tr></thead>
+            <tbody>
+              <tr><td>Asamblea de arranque Modo Transición</td><td class="mono">03 oct 2026</td><td>Comité</td><td><button class="btn small">Subir minuta y acuerdos</button></td></tr>
+              <tr><td>Fugas en área común</td><td class="mono">14 sep 2026</td><td>Luis F. — Casa 09</td><td><span class="pill success">Minuta cargada</span></td></tr>
+            </tbody>
+          </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ANALISIS JURIDICO -->
+    <section class="screen" id="screen-juridico">
+      <div class="pagehead">
+        <div>
+          <div class="eyebrow">Asesoría legal condominal</div>
+          <h1>Análisis jurídico</h1>
+          <div class="sub">Reportes y minutas de las reuniones con el abogado del condominio.</div>
+        </div>
+      </div>
+
+      <div class="card comite-block" style="margin-bottom:16px;">
+        <h3>Subir reporte o minuta (Comité)</h3>
+        <div class="grid cols-2">
+          <div class="field"><label>Título</label><input type="text" placeholder="Ej. Minuta reunión con Lic. Pérez"/></div>
+          <div class="field"><label>Fecha</label><input type="date"/></div>
+        </div>
+        <div class="field"><label>Documento (PDF)</label><input type="file"/></div>
+        <button class="btn primary">Publicar</button>
+      </div>
+
+      <div class="grid cols-2">
+        <div>
+          <div class="card legal-card">
+            <h4>Minuta — reunión con Lic. Pérez</h4>
+            <div class="legal-meta mono">20 oct 2026</div>
+            <div class="stat-foot" style="margin-top:0;">Se revisó la situación de la administración saliente y la estrategia para exigir la entrega de registros contables.</div>
+          </div>
+          <div class="card legal-card">
+            <h4>Reporte — reglamento de uso de piscina</h4>
+            <div class="legal-meta mono">02 sep 2026</div>
+            <div class="stat-foot" style="margin-top:0;">Opinión legal sobre la actualización del reglamento interno de uso de la piscina.</div>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Pregunta a la IA sobre estos documentos</h3>
+          <div class="chat-box">
+            <div class="chat-msg user">¿Qué dice la minuta sobre los plazos para exigir los registros a la administración saliente?</div>
+            <div class="chat-msg ai">Según la minuta del 20 oct 2026, el comité acordó con el Lic. Pérez enviar un requerimiento formal con 15 días naturales para la entrega de registros, antes de evaluar acciones adicionales.</div>
+          </div>
+          <div class="chat-input-row">
+            <input type="text" placeholder="Escribe tu pregunta..."/>
+            <button class="btn primary small">Enviar</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BOLETINES -->
+    <section class="screen" id="screen-boletines">
+      <div id="boletinesList">
+        <div class="pagehead">
+          <div>
+            <div class="eyebrow">Boletín semanal · generado por IA</div>
+            <h1>Boletines</h1>
+            <div class="sub">Situación del condominio, minutas de juntas y actualizaciones legales recientes.</div>
+          </div>
+        </div>
+        <div class="news-grid" id="newsGrid"></div>
+        <div class="news-loading" id="newsLoading">Cargando boletines anteriores…</div>
+      </div>
+
+      <div class="reading-view" id="readingView">
+        <button class="btn small back" onclick="closeReading()">← Volver a boletines</button>
+        <article>
+          <h1 id="readingTitle"></h1>
+          <div class="meta mono" id="readingMeta"></div>
+          <div id="readingBody"></div>
+        </article>
+      </div>
+    </section>
+
+    <!-- FONDOS (legado, oculto de la navegación; se conserva por referencia de datos) -->
+
+    <!-- COMITE: MODO TRANSICION -->
+    <section class="screen" id="screen-modo">
+      <div class="pagehead">
+        <div>
+          <div class="eyebrow">Comité de Vigilancia · Oasis Residencial Cholul</div>
+          <h1>Modo Transición</h1>
+          <div class="sub">Activar y cerrar este modo requiere votación unánime (4 de 4) del comité.</div>
+        </div>
+        <span class="pill warning">Activo desde 03 oct 2026</span>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <h3>Iniciativas declaradas pendientes de aprobación</h3>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th>Iniciativa</th><th>Declarada por</th><th class="num">Presupuesto</th><th>Acción</th></tr></thead>
+            <tbody>
+              <tr><td>Reparación de bomba de agua</td><td>Marcela R. — Casa 14</td><td class="num mono">$4,500</td><td><button class="btn small primary">Aprobar</button> <button class="btn small">Rechazar</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <h3>Cierre de iniciativas por aprobar</h3>
+        <div class="stat-foot" style="margin-top:0; margin-bottom:10px;">El comité aprueba o rechaza que el trabajo quedó completo, con base en la evidencia subida por el ejecutor.</div>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th>Iniciativa</th><th>Ejecutor</th><th>Evidencia</th><th>Acción</th></tr></thead>
+            <tbody>
+              <tr><td>Recolección de basura</td><td>J. Pérez — Casa 22</td><td><button class="btn small">Ver evidencia</button></td><td><button class="btn small primary">Aprobar cierre</button> <button class="btn small">Rechazar</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="grid cols-2">
+        <div class="card">
+          <h3>Justificación de activación</h3>
+          <p style="font-size:13px; color:var(--ink-muted);">
+            "La administración saliente no ha entregado los registros de deuda y aportaciones
+            de los condóminos. Se activa el Modo Transición para no detener la operación del
+            condominio mientras se recibe esa información."
+          </p>
+          <div class="stat-foot">Registrada por Comité · 03 oct 2026</div>
+        </div>
+
+        <div class="card">
+          <h3>Votación para cerrar el modo</h3>
+          <div class="voterow"><div class="member"><div class="avatar">JM</div> J. Martínez</div><span class="pill success">Voto: cerrar</span></div>
+          <div class="voterow"><div class="member"><div class="avatar">AS</div> A. Soto</div><span class="pill success">Voto: cerrar</span></div>
+          <div class="voterow"><div class="member"><div class="avatar">RC</div> R. Casas</div><span class="pill success">Voto: cerrar</span></div>
+          <div class="voterow"><div class="member"><div class="avatar">PL</div> P. Lima</div><span class="pill neutral">Sin votar</span></div>
+          <div class="divider"></div>
+          <button class="btn primary" disabled>Cerrar Modo Transición (3 de 4 — falta 1 voto)</button>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="card">
+        <h3>Bitácora de auditoría</h3>
+        <div class="timeline">
+          <div class="tl-item"><div class="tl-date">03 oct 2026</div><div class="tl-title">Modo Transición activado</div><div class="tl-desc">Votación unánime 4/4 del Comité de Vigilancia.</div></div>
+          <div class="tl-item"><div class="tl-date">03 oct 2026 – hoy</div><div class="tl-title">Aportaciones registradas como crédito o pendientes de validación</div><div class="tl-desc">134 aportaciones dentro del sistema, 58 comprobantes de administración saliente.</div></div>
+          <div class="tl-item"><div class="tl-date">En curso</div><div class="tl-title">Votación de cierre</div><div class="tl-desc">3 de 4 votos a favor de cerrar.</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONCILIACION -->
+    <section class="screen" id="screen-conciliacion">
+      <div class="pagehead">
+        <div>
+          <div class="eyebrow">Comité de Vigilancia · Oasis Residencial Cholul</div>
+          <h1>Conciliación de deuda histórica</h1>
+          <div class="sub">Al recibir los registros de la administración saliente, se concilia primero con créditos y comprobantes pendientes; el faltante se convierte en deuda normal con mora desde la fecha original.</div>
+        </div>
+        <button class="btn primary small">Cargar registros de la administración saliente</button>
+      </div>
+
+      <div class="card">
+        <h3>Conciliación por condómino</h3>
+        <div class="tablewrap">
+        <table>
+          <thead><tr><th>Condómino</th><th class="num">Deuda histórica</th><th class="num">Créditos (transición)</th><th class="num">Pendiente de validación</th><th class="num">Resultado</th><th>Estatus</th></tr></thead>
+          <tbody>
+            <tr><td>Marcela R. — Casa 14</td><td class="num mono">$4,400</td><td class="num mono">$1,850</td><td class="num mono">$3,200</td><td class="num mono" style="color:var(--success)">+$650 a favor</td><td><span class="pill success">Conciliado</span></td></tr>
+            <tr><td>Luis F. — Casa 09</td><td class="num mono">$7,200</td><td class="num mono">$950</td><td class="num mono">$0</td><td class="num mono" style="color:var(--critical)">$6,250 mora desde 11 feb 2026</td><td><span class="pill critical">Deuda normal</span></td></tr>
+            <tr><td>Ana G. — Casa 31</td><td class="num mono">—</td><td class="num mono">$2,100</td><td class="num mono">$0</td><td class="num mono">Sin deuda histórica</td><td><span class="pill neutral">Sin pendiente</span></td></tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- NOTIFICACIONES -->
+    <section class="screen" id="screen-notificaciones">
+      <div class="pagehead">
+        <div>
+          <div class="eyebrow">Centro de notificaciones</div>
+          <h1>Notificaciones</h1>
+          <div class="sub">WhatsApp, correo y portal — eventos de aportaciones, modo transición y conciliación.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="notif"><span class="chip-ch ch-whatsapp">WhatsApp</span><div style="flex:1"><div class="ntitle">Nueva iniciativa especial obligatoria</div><div class="ndesc">El comité aprobó "Reposición de bomba de agua potable". Aplica a todos los condóminos.</div></div><div class="ntime">hace 1 h</div></div>
+        <div class="notif"><span class="chip-ch ch-portal">Portal</span><div style="flex:1"><div class="ntitle">Tu deuda histórica fue conciliada</div><div class="ndesc">Quedó un saldo a favor de $650 tras aplicar tus créditos de transición.</div></div><div class="ntime">hace 2 h</div></div>
+        <div class="notif"><span class="chip-ch ch-whatsapp">WhatsApp</span><div style="flex:1"><div class="ntitle">Nueva junta: Presupuesto 2027</div><div class="ndesc">04 nov, 19:00 h por Zoom. Agregada a tu calendario.</div></div><div class="ntime">hace 10 h</div></div>
+        <div class="notif"><span class="chip-ch ch-email">Email</span><div style="flex:1"><div class="ntitle">El comité votó para cerrar el Modo Transición</div><div class="ndesc">3 de 4 votos registrados. Falta 1 voto para el cierre.</div></div><div class="ntime">hace 1 día</div></div>
+        <div class="notif"><span class="chip-ch ch-portal">Portal</span><div style="flex:1"><div class="ntitle">Tu comprobante quedó pendiente de validación</div><div class="ndesc">Recibo AS-0441 de la administración saliente por $3,200. No genera mora mientras se concilia.</div></div><div class="ntime">hace 6 días</div></div>
+      </div>
+    </section>
+
+    <!-- ACCESO -->
+    <section class="screen" id="screen-acceso">
+      <div style="margin:-26px -34px -110px; min-height:100vh;">
+        <div class="auth-wrap">
+          <div class="auth-side">
+            <svg class="seal" viewBox="0 0 48 48" aria-hidden="true">
+              <circle cx="24" cy="24" r="21" fill="none" stroke="#D7E7E3" stroke-width="2"/>
+              <circle cx="24" cy="24" r="15" fill="none" stroke="#D7E7E3" stroke-width="1.2" stroke-dasharray="2 3"/>
+              <path d="M24 13 L30 24 L24 35 L18 24 Z" fill="#163F3A" stroke="#D7E7E3" stroke-width="1.2"/>
+            </svg>
+            <div>
+              <h2>Oasis Residencial Cholul — autogestión con registro de todo.</h2>
+              <p>Tu invitación es válida por 3 días. Si no la usas a tiempo, se reenvía automáticamente hasta 3 veces antes de requerir un reenvío manual del comité.</p>
+            </div>
+          </div>
+          <div class="auth-form">
+            <div class="auth-card">
+              <h1>Activa tu acceso</h1>
+              <div class="sub">Usa el código de invitación que recibiste por WhatsApp o email.</div>
+              <div class="field"><label>Código de invitación</label><input type="text" placeholder="Ej. 7F2K-91QX" /><div class="hint">Intento de envío 2 de 3 · vence el 28 oct 2026</div></div>
+              <div class="field"><label>Casa a validar</label><select><option>Casa 14</option></select></div>
+              <div class="field"><label>Nombre completo</label><input type="text" placeholder="Como aparece en tu identificación"/></div>
+              <button class="btn primary" style="width:100%; justify-content:center;" onclick="finishRegistration()">Continuar registro</button>
+              <div class="hint" style="margin-top:14px; text-align:center;">¿Ya tienes cuenta? <a href="#">Inicia sesión</a></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- Summary bar + drawer for "Iniciativas vecinales" -->
+<div class="summary-bar" id="summaryBar" style="display:none;">
+  <div class="summary-left">
+    <div>
+      <div class="sl-label">Valor de tus aportaciones seleccionadas</div>
+      <div class="amt mono" id="summaryTotal">$0</div>
+    </div>
+    <div class="summary-progress">
+      <div class="progress-track"><div class="progress-fill" id="summaryProgressFill" style="width:0%"></div></div>
+      <div class="nums"><span id="summaryProgressLabel">0% de tu cuota mensual</span></div>
+    </div>
+  </div>
+  <button class="btn primary" id="openDrawerBtn" onclick="openDrawer()">Revisar y confirmar</button>
+</div>
+
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-head"><h3>Resumen de tu aportación</h3><button onclick="closeDrawer()">✕</button></div>
+  <div class="drawer-body" id="drawerBody"><div class="empty-cart">Aún no has seleccionado ninguna aportación.</div></div>
+  <div class="drawer-foot">
+    <div class="drawer-total"><span>Total</span><span class="mono" id="drawerTotal">$0</span></div>
+    <button class="btn primary" style="justify-content:center;" onclick="confirmCart()">Confirmar aportación</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="specialInitModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>Crear iniciativa especial (obligatoria)</h3>
+      <button onclick="closeSpecialInit()">✕</button>
+    </div>
+    <div class="modal-body" id="specialInitForm">
+      <div class="field"><label>Nombre de la iniciativa</label><input type="text" placeholder="Ej. Reposición de bomba de agua potable"/></div>
+      <div class="field"><label>Propósito</label><textarea placeholder="Por qué es obligatoria para todos los condóminos"></textarea></div>
+      <div class="field"><label>Presupuesto</label><input type="number" placeholder="$"/></div>
+      <div class="hint">Al crearla, todos los condóminos quedarán inscritos automáticamente como obligados a contribuir.</div>
+    </div>
+    <div class="modal-body" id="specialInitWarning" style="display:none;">
+      <div class="card" style="background:var(--warning-soft); border:none; box-shadow:none;">
+        <div class="stamp" style="margin-bottom:10px;">Aprobación requerida</div>
+        <p style="font-size:14px; color:var(--ink); margin:0; line-height:1.5;">
+          Esta iniciativa aplicará a <strong>todos los condóminos</strong>.<br/>
+          Necesita la aprobación de <strong>otro miembro del comité</strong> para continuar.
+        </p>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn" onclick="closeSpecialInit()">Cancelar</button>
+      <button class="btn primary" id="specialInitBtn" onclick="specialInitContinue()">Crear iniciativa especial</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="finalizeModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>Finalizar ejecución — Mantenimiento de piscina</h3>
+      <button onclick="closeFinalize()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="wizard-steps"><div class="ws-dot done" id="wsdot1"></div><div class="ws-dot" id="wsdot2"></div><div class="ws-dot" id="wsdot3"></div></div>
+
+      <div class="wizard-pane active" id="wpane1">
+        <div class="field"><label>¿Qué se completó?</label><textarea placeholder="Resume el trabajo realizado, por ejemplo: se repuso el nivel de cloro y se limpió el filtro."></textarea></div>
+      </div>
+
+      <div class="wizard-pane" id="wpane2">
+        <div class="field"><label>Evidencia fotográfica o documental</label><input type="file" multiple/></div>
+        <div class="hint">Sube fotos del resultado final o documentos que lo respalden.</div>
+      </div>
+
+      <div class="wizard-pane" id="wpane3">
+        <div class="card" style="background:var(--surface-2); border:none; box-shadow:none;">
+          <div class="stat-foot" style="margin-top:0;">Se enviará al Comité de Vigilancia para su aprobación de cierre (sección "Cierre de iniciativas por aprobar"). Se te notificará por WhatsApp y email cuando sea revisada.</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn" id="wizBack" onclick="wizardBack()" style="visibility:hidden;">Atrás</button>
+      <button class="btn primary" id="wizNext" onclick="wizardNext()">Siguiente</button>
+    </div>
+  </div>
+</div>
+
+<!-- Asistente de IA flotante -->
+<button class="ai-fab" id="aiFab" onclick="toggleAiPanel()" aria-label="Abrir asistente de IA">
+  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <path d="M12 3.5l1.9 4.9 4.9 1.9-4.9 1.9-1.9 4.9-1.9-4.9-4.9-1.9 4.9-1.9z" fill="white"/>
+    <circle cx="18.2" cy="18.2" r="1.5" fill="white"/>
+  </svg>
+</button>
+
+<div class="ai-panel" id="aiPanel">
+  <div class="ai-panel-head">
+    <div class="ai-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5l1.9 4.9 4.9 1.9-4.9 1.9-1.9 4.9-1.9-4.9-4.9-1.9 4.9-1.9z" fill="white"/></svg></div>
+    <div class="ai-title"><b>Asistente Oasis</b><span>Te ayudo a usar el portal</span></div>
+    <button onclick="toggleAiPanel()" aria-label="Cerrar asistente">✕</button>
+  </div>
+  <div class="ai-panel-body" id="aiBody">
+    <div class="chat-msg ai">¡Hola! Soy el asistente del portal. Puedo explicarte cómo funciona algo, o llevarte directo a la sección que necesitas.</div>
+  </div>
+  <div class="ai-quick">
+    <button onclick="aiAsk('aportar')">¿Cómo aporto a una iniciativa?</button>
+    <button onclick="aiAsk('transicion')">¿Qué es el Modo Transición?</button>
+    <button onclick="aiAsk('tour')">Muéstrame cómo usar Iniciativas vecinales</button>
+  </div>
+  <div class="ai-panel-foot">
+    <input type="text" placeholder="Escribe tu pregunta..." id="aiInput" onkeydown="if(event.key==='Enter') aiSend();"/>
+    <button class="btn primary small" onclick="aiSend()">Enviar</button>
+  </div>
+</div>
+
+<!-- Recorrido guiado -->
+<div class="tour-ring" id="tourRing"></div>
+<div class="tour-tip" id="tourTip">
+  <div class="tt-step" id="tourStepLabel">Paso 1 de 4</div>
+  <p id="tourStepText">Texto del paso</p>
+  <div class="tt-actions">
+    <button class="tt-skip" onclick="endTour()">Saltar recorrido</button>
+    <button class="btn primary small" id="tourNextBtn" onclick="tourNext()">Siguiente</button>
+  </div>
+</div>
+
+<script>
+  // ---- Sidebar móvil ----
+  function toggleSidebar(){ document.body.classList.toggle('sidebar-open'); }
+
+  // ---- Etiqueta cada celda con su encabezado, para la vista de tarjetas en móvil ----
+  function labelizeTables(){
+    document.querySelectorAll('table').forEach(function(table){
+      var headers = Array.prototype.map.call(table.querySelectorAll('thead th'), function(th){
+        return th.textContent.trim();
+      });
+      table.querySelectorAll('tbody tr').forEach(function(tr){
+        Array.prototype.forEach.call(tr.children, function(td, i){
+          if(headers[i]) td.setAttribute('data-th', headers[i]);
+        });
+      });
+    });
+  }
+  labelizeTables();
+
+  // ---- Crear iniciativa especial (comité) ----
+  var specialInitConfirming = false;
+  function openSpecialInit(){
+    specialInitConfirming = false;
+    document.getElementById('specialInitForm').style.display = 'block';
+    document.getElementById('specialInitWarning').style.display = 'none';
+    document.getElementById('specialInitBtn').textContent = 'Crear iniciativa especial';
+    document.getElementById('specialInitModal').classList.add('show');
+  }
+  function closeSpecialInit(){ document.getElementById('specialInitModal').classList.remove('show'); }
+  function specialInitContinue(){
+    if(!specialInitConfirming){
+      specialInitConfirming = true;
+      document.getElementById('specialInitForm').style.display = 'none';
+      document.getElementById('specialInitWarning').style.display = 'block';
+      document.getElementById('specialInitBtn').textContent = 'Entendido, enviar a aprobación';
+      return;
+    }
+    alert('Iniciativa especial enviada. Queda pendiente de aprobación de otro miembro del comité (2 de 4).');
+    closeSpecialInit();
+  }
+
+  // ---- Asistente de IA ----
+  function toggleAiPanel(){ document.getElementById('aiPanel').classList.toggle('show'); }
+  function closeAiPanel(){ document.getElementById('aiPanel').classList.remove('show'); }
+  function appendAiMsg(role, html){
+    var body = document.getElementById('aiBody');
+    var div = document.createElement('div');
+    div.className = 'chat-msg ' + role;
+    div.innerHTML = html;
+    body.appendChild(div);
+    body.scrollTop = body.scrollHeight;
+  }
+  function aiAsk(topic){
+    if(topic === 'aportar'){
+      appendAiMsg('user', '¿Cómo aporto a una iniciativa?');
+      appendAiMsg('ai', 'Entra a "Iniciativas vecinales", elige una y el tipo de aportación (dinero, trabajo o especie).<br><button class="btn small primary" style="margin-top:8px;" onclick="toggleAiPanel();goScreen(\'vecinales\');">Llévame ahí</button>');
+    } else if(topic === 'transicion'){
+      appendAiMsg('user', '¿Qué es el Modo Transición?');
+      appendAiMsg('ai', 'Es el modo temporal que activamos mientras la administración saliente entrega los registros de deuda. Mientras tanto, cualquier vecino puede proponer y ejecutar iniciativas directamente, y tus pagos anteriores quedan protegidos.');
+    } else if(topic === 'tour'){
+      appendAiMsg('user', 'Muéstrame cómo usar Iniciativas vecinales');
+      appendAiMsg('ai', 'Perfecto, te voy guiando paso a paso. Sigue las indicaciones resaltadas en la pantalla.');
+      setTimeout(function(){ toggleAiPanel(); startTour(); }, 400);
+    }
+  }
+  function aiSend(){
+    var input = document.getElementById('aiInput');
+    var val = input.value.trim();
+    if(!val) return;
+    appendAiMsg('user', val);
+    appendAiMsg('ai', 'Puedo ayudarte a navegar el portal — usa los botones sugeridos, o pregúntame algo como "¿cómo aporto?" o "¿qué es el Modo Transición?".');
+    input.value = '';
+  }
+
+  // ---- Recorrido guiado (onboarding) ----
+  var tourSteps = [
+    {
+      selector: '.navitem[data-target="vecinales"]',
+      title: 'Paso 1 de 4',
+      text: 'Empecemos por aquí: da clic en "Iniciativas vecinales" para ver en qué se usa tu aportación este mes.',
+      action: function(){ document.querySelector('.navitem[data-target="vecinales"]').click(); }
+    },
+    {
+      selector: '#screen-vecinales .init-card[data-init="piscina"] .init-head',
+      title: 'Paso 2 de 4',
+      text: 'Da clic sobre una iniciativa para ver su detalle — por ejemplo, Mantenimiento de piscina.',
+      action: function(){ toggleCard(document.querySelector('#screen-vecinales .init-card[data-init="piscina"] .init-head')); }
+    },
+    {
+      selector: '#screen-vecinales .init-card[data-init="piscina"] .stepper[data-unidad="bote(s)"]',
+      title: 'Paso 3 de 4',
+      text: 'Aquí eliges cuánto aportas — por ejemplo, cuántos botes de cloro. Pulsa "+" para sumar uno.',
+      action: function(){
+        var wrap = document.querySelector('#screen-vecinales .init-card[data-init="piscina"] .stepper[data-unidad="bote(s)"]');
+        if(wrap){ stepUp(wrap.querySelector('button:last-child')); }
+      }
+    },
+    {
+      selector: '#openDrawerBtn',
+      title: 'Paso 4 de 4',
+      text: 'Cuando termines de elegir, revisa tu resumen aquí y confirma tu aportación.',
+      action: null,
+      final: true
+    }
+  ];
+  var tourIdx = -1;
+
+  function startTour(){
+    tourIdx = 0;
+    if(window.innerWidth <= 880){ document.body.classList.add('sidebar-open'); }
+    renderTourStep();
+  }
+  function renderTourStep(){
+    var step = tourSteps[tourIdx];
+    var el = document.querySelector(step.selector);
+    if(!el){ endTour(); return; }
+    var r = el.getBoundingClientRect();
+    var ring = document.getElementById('tourRing');
+    ring.style.left = (r.left - 6) + 'px';
+    ring.style.top = (r.top - 6) + 'px';
+    ring.style.width = (r.width + 12) + 'px';
+    ring.style.height = (r.height + 12) + 'px';
+    ring.style.display = 'block';
+    var tip = document.getElementById('tourTip');
+    tip.style.display = 'block';
+    var tipLeft = Math.min(window.innerWidth - 290, Math.max(10, r.left));
+    var tipTop = r.bottom + 14;
+    if(tipTop + 150 > window.innerHeight){ tipTop = Math.max(10, r.top - 160); }
+    tip.style.left = tipLeft + 'px';
+    tip.style.top = tipTop + 'px';
+    document.getElementById('tourStepLabel').textContent = step.title;
+    document.getElementById('tourStepText').textContent = step.text;
+    document.getElementById('tourNextBtn').textContent = step.final ? 'Entendido, finalizar' : 'Siguiente';
+  }
+  function tourNext(){
+    var step = tourSteps[tourIdx];
+    if(step.action) step.action();
+    if(step.final){ endTour(); return; }
+    tourIdx++;
+    setTimeout(renderTourStep, 280);
+  }
+  function endTour(){
+    tourIdx = -1;
+    document.getElementById('tourRing').style.display = 'none';
+    document.getElementById('tourTip').style.display = 'none';
+  }
+
+  // ---- Vista de inicio especial para recién registrados ----
+  function finishRegistration(){
+    goScreen('dashboard');
+    document.getElementById('aiBody').innerHTML = '';
+    appendAiMsg('ai', '¡Bienvenida a Oasis Residencial Cholul, Marcela! Soy el asistente del portal — ¿quieres que te muestre cómo usar "Iniciativas vecinales" para hacer tu primera aportación?');
+    appendAiMsg('ai', '<button class="btn small primary" onclick="toggleAiPanel();startTour();">Sí, muéstrame cómo</button> <button class="btn small ghost" onclick="toggleAiPanel();">No, gracias</button>');
+    setTimeout(function(){ document.getElementById('aiPanel').classList.add('show'); }, 350);
+  }
+
+  // ---- Asistente "Finalizar ejecución" ----
+  var wizStep = 1;
+  function openFinalize(){ wizStep = 1; updateWizard(); document.getElementById('finalizeModal').classList.add('show'); }
+  function closeFinalize(){ document.getElementById('finalizeModal').classList.remove('show'); }
+  function updateWizard(){
+    for(var i=1;i<=3;i++){
+      document.getElementById('wpane'+i).classList.toggle('active', i===wizStep);
+      document.getElementById('wsdot'+i).classList.toggle('done', i<=wizStep);
+    }
+    document.getElementById('wizBack').style.visibility = (wizStep===1) ? 'hidden' : 'visible';
+    document.getElementById('wizNext').textContent = (wizStep===3) ? 'Enviar para aprobación' : 'Siguiente';
+  }
+  function wizardNext(){
+    if(wizStep===3){ alert('Ejecución enviada al Comité de Vigilancia para su aprobación de cierre.'); closeFinalize(); return; }
+    wizStep++; updateWizard();
+  }
+  function wizardBack(){ if(wizStep>1){ wizStep--; updateWizard(); } }
+
+  // ---- Nav + view toggle ----
+  function goScreen(target){
+    var nav = document.querySelector('.navitem[data-target="' + target + '"]');
+    if(nav){ nav.click(); return; }
+    document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
+    document.getElementById('screen-' + target).classList.add('active');
+  }
+
+  document.querySelectorAll('.navitem').forEach(function(item){
+    item.addEventListener('click', function(){
+      document.querySelectorAll('.navitem').forEach(function(n){ n.classList.remove('active'); });
+      document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
+      item.classList.add('active');
+      document.getElementById('screen-' + item.dataset.target).classList.add('active');
+      document.getElementById('summaryBar').style.display = (item.dataset.target === 'vecinales') ? 'flex' : 'none';
+      document.body.classList.remove('sidebar-open');
+      window.scrollTo(0,0);
+    });
+  });
+
+  document.querySelectorAll('#viewToggle button').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      document.querySelectorAll('#viewToggle button').forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      document.body.setAttribute('data-view', btn.dataset.view);
+      if(btn.dataset.view === 'condomino'){
+        var activeTarget = document.querySelector('.navitem.active');
+        if(activeTarget && activeTarget.classList.contains('comite-only')){
+          document.querySelector('.navitem[data-target="dashboard"]').click();
+        }
+      }
+    });
+  });
+
+  // ---- Declarar iniciativa ----
+  function toggleDeclareForm(){
+    document.getElementById('declareForm').classList.toggle('show');
+  }
+  function submitDeclare(){
+    alert('Iniciativa declarada. Queda pendiente de aprobación del Comité de Vigilancia.');
+    document.getElementById('declareForm').classList.remove('show');
+  }
+
+  // ---- Tabs genéricas (Mis juntas) ----
+  function showTab(btn, paneId){
+    var tabs = btn.parentElement;
+    tabs.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    var panes = tabs.parentElement.querySelectorAll('.tabpane');
+    panes.forEach(function(p){ p.classList.remove('active'); });
+    document.getElementById(paneId).classList.add('active');
+  }
+
+  // ---- Cart logic for "Iniciativas vecinales" ----
+  var cart = {};
+  var cuotaMensual = 1200; // cuota mensual correspondiente al condómino (Casa 14)
+
+  function toggleCard(headEl){ headEl.parentElement.classList.toggle('open'); }
+
+  function refreshCardBadges(){
+    document.querySelectorAll('.init-card').forEach(function(card){
+      var init = card.dataset.init;
+      var has = Object.keys(cart).some(function(k){ return cart[k].init === init; });
+      card.classList.toggle('has-selection', has);
+    });
+  }
+
+  function recalc(){
+    var total = 0;
+    Object.keys(cart).forEach(function(k){ total += cart[k].value; });
+    document.getElementById('summaryTotal').textContent = '$' + total.toLocaleString('es-MX');
+    document.getElementById('drawerTotal').textContent = '$' + total.toLocaleString('es-MX');
+    var pct = Math.round((total / cuotaMensual) * 100);
+    document.getElementById('summaryProgressFill').style.width = Math.min(100, pct) + '%';
+    document.getElementById('summaryProgressLabel').textContent = pct + '% de tu cuota mensual ($' + cuotaMensual.toLocaleString('es-MX') + ')';
+    renderDrawer();
+    refreshCardBadges();
+  }
+
+  function stepUp(btn){
+    var wrap = btn.parentElement;
+    var qtyEl = wrap.querySelector('.qty');
+    var qty = parseInt(qtyEl.textContent, 10);
+    var max = parseInt(wrap.dataset.max, 10);
+    if(qty >= max) return;
+    qty += 1; qtyEl.textContent = qty;
+    updateStepperCart(wrap, qty);
+  }
+  function stepDown(btn){
+    var wrap = btn.parentElement;
+    var qtyEl = wrap.querySelector('.qty');
+    var qty = parseInt(qtyEl.textContent, 10);
+    if(qty <= 0) return;
+    qty -= 1; qtyEl.textContent = qty;
+    updateStepperCart(wrap, qty);
+  }
+  function updateStepperCart(wrap, qty){
+    var id = wrap.dataset.label + '__' + wrap.dataset.init;
+    if(qty === 0){ delete cart[id]; }
+    else {
+      var unitValue = parseFloat(wrap.dataset.unitValue);
+      var label = wrap.dataset.label;
+      if(wrap.dataset.hasSpec === 'true'){
+        var sel = wrap.closest('.lineitem').querySelector('.spec-select');
+        label += ' (' + sel.value + ')';
+      }
+      cart[id] = { label: label + ' × ' + qty + ' ' + wrap.dataset.unidad, init: wrap.dataset.init, value: unitValue * qty };
+    }
+    recalc();
+  }
+
+  function addMoney(btn){
+    var input = btn.previousElementSibling;
+    var val = parseFloat(input.value);
+    if(!val || val <= 0) return;
+    var id = input.dataset.label;
+    cart[id] = { label: input.dataset.label + ' ($' + val.toLocaleString('es-MX') + ')', init: input.dataset.init, value: val };
+    recalc();
+  }
+
+  var initNames = { luz:'Pago de luz de pozo', vigilancia:'Pago de vigilancia', piscina:'Mantenimiento de piscina', basura:'Recolección de basura', jardineria:'Pago de jardinería' };
+
+  function renderDrawer(){
+    var body = document.getElementById('drawerBody');
+    var keys = Object.keys(cart);
+    if(keys.length === 0){ body.innerHTML = '<div class="empty-cart">Aún no has seleccionado ninguna aportación.</div>'; return; }
+    var groups = {};
+    keys.forEach(function(k){ var item = cart[k]; groups[item.init] = groups[item.init] || []; groups[item.init].push(item); });
+    var html = '';
+    Object.keys(groups).forEach(function(initKey){
+      html += '<div class="drawer-group"><div class="drawer-group-title">' + initNames[initKey] + '</div>';
+      groups[initKey].forEach(function(item){
+        html += '<div class="drawer-line"><span class="dl-name">' + item.label + '</span><span class="dl-amt mono">$' + Math.round(item.value).toLocaleString('es-MX') + '</span></div>';
+      });
+      html += '</div>';
+    });
+    body.innerHTML = html;
+  }
+
+  function openDrawer(){ document.getElementById('drawer').classList.add('show'); document.getElementById('drawerOverlay').classList.add('show'); }
+  function closeDrawer(){ document.getElementById('drawer').classList.remove('show'); document.getElementById('drawerOverlay').classList.remove('show'); }
+  function confirmCart(){
+    if(Object.keys(cart).length === 0) return;
+    alert('Aportación enviada. Ahora sube la evidencia de cada aportación desde "Mis aportaciones".');
+    cart = {};
+    document.querySelectorAll('.stepper .qty').forEach(function(q){ q.textContent = '0'; });
+    document.querySelectorAll('.money-input').forEach(function(i){ i.value = ''; });
+    recalc();
+    closeDrawer();
+  }
+  recalc();
+
+  // ---- Boletines: newspaper grid with infinite scroll ----
+  var boletines = [
+    { issue:'No. 12', title:'El comité se acerca al cierre del Modo Transición', date:'24 oct 2026', excerpt:'Tres de cuatro miembros ya votaron a favor de cerrar el modo tras recibir avances de la administración saliente.', body:['Esta semana el Comité de Vigilancia avanzó en la votación para cerrar el Modo Transición, acumulando 3 de los 4 votos necesarios.', 'Se espera que en los próximos días se reciba la documentación final de la administración saliente para completar la conciliación de deudas históricas.'] },
+    { issue:'No. 11', title:'134 aportaciones registradas dentro del nuevo sistema', date:'17 oct 2026', excerpt:'El Modo Transición acumula ya más de cien aportaciones directas, además de 58 comprobantes de la administración anterior en validación.', body:['Durante la semana se recibieron 134 aportaciones dentro del sistema, repartidas entre pago de vigilancia, luz de pozo y mantenimiento de piscina.', 'Adicionalmente, 58 comprobantes de la administración saliente quedaron registrados como pendientes de validación.'] },
+    { issue:'No. 10', title:'Minuta: reunión con el Lic. Pérez sobre registros contables', date:'20 oct 2026', excerpt:'El comité acordó un plazo de 15 días naturales para exigir a la administración saliente la entrega de registros.', body:['Se llevó a cabo la reunión con el abogado del condominio para definir la estrategia legal frente a la falta de entrega de registros contables por parte de la administración saliente.', 'Se acordó un requerimiento formal con 15 días naturales de plazo.'] },
+    { issue:'No. 9', title:'Nueva iniciativa declarada: reparación de bomba de agua', date:'24 oct 2026', excerpt:'Marcela R. (Casa 14) declaró una iniciativa urgente para reparar fugas en la bomba del pozo.', body:['En el marco del Modo Transición, la condómina Marcela R. declaró una nueva iniciativa para atender fugas en la bomba del pozo.', 'La iniciativa, con presupuesto de $4,500, está pendiente de aprobación del Comité de Vigilancia.'] },
+    { issue:'No. 8', title:'Convocatoria a junta: Presupuesto 2027', date:'10 oct 2026', excerpt:'El comité convocó a una junta vía Zoom para el 4 de noviembre para discutir el presupuesto del próximo año.', body:['El Comité de Vigilancia convocó a una junta general para discutir el presupuesto 2027.', 'La junta se realizará el 4 de noviembre a las 19:00 h por Zoom.'] },
+    { issue:'No. 7', title:'Recolección de basura queda cubierta al 100% este mes', date:'03 oct 2026', excerpt:'Es la primera iniciativa básica en completarse por completo desde que inició el Modo Transición.', body:['La iniciativa de recolección de basura alcanzó el 100% de su meta mensual, convirtiéndose en la primera en completarse desde el inicio del Modo Transición.'] },
+    { issue:'No. 6', title:'Se activa el Modo Transición en Oasis Residencial Cholul', date:'03 oct 2026', excerpt:'El comité votó de forma unánime activar este modo ante la falta de entrega de registros de la administración saliente.', body:['El 3 de octubre de 2026, el Comité de Vigilancia votó de forma unánime (4 de 4) activar el Modo Transición.', 'El objetivo es no detener la operación del condominio mientras se reciben los registros de deuda y aportaciones de la administración anterior.'] },
+    { issue:'No. 5', title:'Resumen de cierre de administración anterior', date:'26 sep 2026', excerpt:'La administración saliente notificó su salida formal; aún no se han entregado los registros contables.', body:['La administración saliente notificó formalmente su salida el 26 de septiembre. A la fecha, los registros contables siguen pendientes de entrega.'] }
+  ];
+  var boletinesLoaded = 0;
+  var PAGE_SIZE = 3;
+
+  function renderBoletin(b, idx){
+    var el = document.createElement('div');
+    el.className = 'news-card';
+    el.innerHTML = '<div class="news-issue">' + b.issue + '</div><div class="news-title">' + b.title + '</div><div class="news-excerpt">' + b.excerpt + '</div><div class="news-date">' + b.date + '</div>';
+    el.addEventListener('click', function(){ openReading(idx); });
+    return el;
+  }
+
+  function loadMoreBoletines(){
+    var grid = document.getElementById('newsGrid');
+    var next = boletines.slice(boletinesLoaded, boletinesLoaded + PAGE_SIZE);
+    next.forEach(function(b){ grid.appendChild(renderBoletin(b, boletines.indexOf(b))); });
+    boletinesLoaded += next.length;
+    document.getElementById('newsLoading').style.display = (boletinesLoaded >= boletines.length) ? 'none' : 'block';
+  }
+
+  function openReading(idx){
+    var b = boletines[idx];
+    document.getElementById('readingTitle').textContent = b.title;
+    document.getElementById('readingMeta').textContent = b.issue + ' · ' + b.date;
+    document.getElementById('readingBody').innerHTML = b.body.map(function(p){ return '<p>' + p + '</p>'; }).join('');
+    document.getElementById('boletinesList').style.display = 'none';
+    document.getElementById('readingView').classList.add('show');
+  }
+  function closeReading(){
+    document.getElementById('readingView').classList.remove('show');
+    document.getElementById('boletinesList').style.display = 'block';
+  }
+
+  loadMoreBoletines();
+  window.addEventListener('scroll', function(){
+    if(!document.getElementById('screen-boletines').classList.contains('active')) return;
+    if(document.getElementById('readingView').classList.contains('show')) return;
+    var scrollBottom = window.innerHeight + window.scrollY;
+    if(scrollBottom >= document.body.offsetHeight - 200){ loadMoreBoletines(); }
+  });
+</script>
+
+</body></html>
